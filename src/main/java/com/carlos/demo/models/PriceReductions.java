@@ -1,8 +1,6 @@
-package com.carlos.demo.Models;
+package com.carlos.demo.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.*;
@@ -26,7 +24,7 @@ public class PriceReductions {
     @Column(name = "ENDDATE")
     private Date endDate;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "priceReductions")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "priceReductions", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Product> products = new ArrayList<Product>();
 

@@ -1,6 +1,6 @@
 package com.carlos.demo.repository;
 
-import com.carlos.demo.Models.Supplier;
+import com.carlos.demo.models.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

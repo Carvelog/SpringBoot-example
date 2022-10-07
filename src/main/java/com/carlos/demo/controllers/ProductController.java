@@ -1,12 +1,15 @@
 package com.carlos.demo.controllers;
 
-import com.carlos.demo.Models.PriceReductions;
-import com.carlos.demo.Models.Product;
-import com.carlos.demo.Models.Supplier;
+import com.carlos.demo.models.PriceReductions;
+import com.carlos.demo.models.Product;
+import com.carlos.demo.models.Supplier;
+import com.carlos.demo.security.ProductDTO;
 import com.carlos.demo.service.PriceReductionsProductsService;
 import com.carlos.demo.service.ProductService;
 import com.carlos.demo.service.SuppliersProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,36 +21,44 @@ public class ProductController {
     @Autowired private SuppliersProductsService suppliersProductsService;
     @Autowired private PriceReductionsProductsService priceReductionsProductsService;
 
-    @PostMapping(value = "/product")
+    @PostMapping("/product")
     public Product saveProduct(@RequestBody Product product){
         return productService.saveProduct(product);
     }
 
     @GetMapping("/products")
-    public List<Product> getProducts(){
-        return productService.getProducts();
+    public ResponseEntity<Object> getProducts(){
+        List<Product> prod = productService.getProducts();
+        return new ResponseEntity<>(prod, HttpStatus.OK);
     }
 
-    @GetMapping("/product/{id}")
-    public Product getProduct(@PathVariable("id") Integer id){
-        Set<Supplier> suppliers = suppliersProductsService.getSuppliersForThisProduct(id);
-        List<PriceReductions> priceReductions = priceReductionsProductsService.getPriceReductionsByProductId(id);
-
+    @GetMapping("/product")
+    public ResponseEntity<Object> getProduct(@RequestParam(value = "id") Integer id){
         Product prod = productService.getProduct(id);
-        prod.setSuppliers(suppliers);
-        prod.setPriceReductions(priceReductions);
+        return new ResponseEntity<>(prod, HttpStatus.OK);
+    }
 
-        return prod;
+    @GetMapping("/product/state")
+    public ResponseEntity<Object> getProductByState(@RequestParam(value = "state") Boolean state){
+        List<Product> prod = productService.getProductByState(state);
+        return new ResponseEntity<>(prod, HttpStatus.OK);
     }
 
     @PutMapping("/product/{id}")
-    public Product updateProduct(@PathVariable("id") Integer id, @RequestBody Product product){
-        return productService.updateProduct(id, product);
+    public ResponseEntity<Object> updateProduct(@PathVariable("id") Integer id, @RequestBody ProductDTO product){
+        Product prod = productService.updateProduct(id, product);
+        return new ResponseEntity<>(prod, HttpStatus.OK);
+    }
+
+    @PutMapping("/product/changestate")
+    public ResponseEntity<String> changeProductState(@RequestParam(value = "id") Integer id){
+        productService.changeProductState(id);
+        return new ResponseEntity<>("Product state changed successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/product/{id}")
-    public String deleteProduct(@PathVariable("id") Integer id){
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id){
         productService.deleteProduct(id);
-        return "Product with id: " + id + " deleted successfully";
+        return new ResponseEntity<>("Product with id: " + id + " deleted successfully", HttpStatus.OK);
     }
 }

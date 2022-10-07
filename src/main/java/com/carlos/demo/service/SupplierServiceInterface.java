@@ -1,7 +1,6 @@
 package com.carlos.demo.service;
 
-import com.carlos.demo.Models.Product;
-import com.carlos.demo.Models.Supplier;
+import com.carlos.demo.models.Supplier;
 
 import java.util.List;
 

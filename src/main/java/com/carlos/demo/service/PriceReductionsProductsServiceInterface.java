@@ -1,6 +1,6 @@
 package com.carlos.demo.service;
 
-import com.carlos.demo.Models.PriceReductions;
+import com.carlos.demo.models.PriceReductions;
 
 import java.util.List;
 

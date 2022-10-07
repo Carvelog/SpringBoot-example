@@ -1,8 +1,6 @@
-package com.carlos.demo.Models;
+package com.carlos.demo.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,7 +21,7 @@ public class Supplier {
     private String country;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "suppliers") //name of the variable which specifies ManyToMany annotation
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "suppliers", cascade = CascadeType.ALL ) //name of the variable which specifies ManyToMany annotation
     @JsonIgnore
     private Set<Product> products = new HashSet<Product>();
 

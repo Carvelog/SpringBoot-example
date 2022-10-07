@@ -1,8 +1,4 @@
-package com.carlos.demo.Models;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+package com.carlos.demo.models;
 
 import javax.persistence.*;
 import java.util.*;
@@ -27,10 +23,10 @@ public class Product {
     @Column(name = "STATE")
     private Boolean state;
 
-    @Column(name = "CREATION_DATE")
+    @Column(name = "CREATIONDATE")
     private Date creationDate;
 
-    @Column(name = "CREATOR_ID", nullable = false)
+    @Column(name = "CREATORID", nullable = false)
     private int creatorId;
 
     @ManyToMany(fetch = FetchType.EAGER)

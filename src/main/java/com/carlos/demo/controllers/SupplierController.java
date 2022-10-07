@@ -1,6 +1,6 @@
 package com.carlos.demo.controllers;
 
-import com.carlos.demo.Models.Supplier;
+import com.carlos.demo.models.Supplier;
 import com.carlos.demo.service.SupplierServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

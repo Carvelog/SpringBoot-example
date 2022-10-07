@@ -1,6 +1,6 @@
 package com.carlos.demo.service;
 
-import com.carlos.demo.Models.PriceReductions;
+import com.carlos.demo.models.PriceReductions;
 import com.carlos.demo.repository.PriceReductionsProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

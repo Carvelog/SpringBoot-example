@@ -1,7 +1,8 @@
 package com.carlos.demo.service;
 
-import com.carlos.demo.Models.Product;
+import com.carlos.demo.models.Product;
 import com.carlos.demo.repository.ProductsRepository;
+import com.carlos.demo.security.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,8 @@ import java.util.Objects;
 @Service
 public class ProductService implements ProductServiceInterface {
 
-    @Autowired
-    private ProductsRepository productsRepository;
+    @Autowired private ProductsRepository productsRepository;
 
-    @Override
     public Product saveProduct(Product product) {
         if(!Objects.nonNull(product.getState())){
             product.setState(true);
@@ -27,30 +26,27 @@ public class ProductService implements ProductServiceInterface {
         return productsRepository.save(product);
     }
 
-    @Override
     public List<Product> getProducts() {
-        return (List<Product>) productsRepository.findAll();
+        return productsRepository.findAll();
     }
 
-    @Override
     public Product getProduct(Integer productId) {
         return productsRepository.findById(productId).get();
     }
 
-    @Override
-    public Product updateProduct(Integer productId, Product newProduct) {
+    public Product updateProduct(Integer productId, ProductDTO newProduct) {
         Product product = productsRepository.findById(productId).get();
 
-        if(Objects.nonNull(newProduct.getItemCode())) {
+        if(!product.getState()){
+            return null;
+        }
+
+        if(newProduct.getItemCode() != 0) {
             product.setItemCode(newProduct.getItemCode());
         }
 
         if(Objects.nonNull(newProduct.getDescription()) && !"".equalsIgnoreCase(newProduct.getDescription())){
             product.setDescription(newProduct.getDescription());
-        }
-
-        if(Objects.nonNull(newProduct.getCreationDate()) && !"".equalsIgnoreCase(newProduct.getDescription())){
-            product.setCreationDate(newProduct.getCreationDate());
         }
 
         if(Objects.nonNull(newProduct.getPrice())){
@@ -63,7 +59,7 @@ public class ProductService implements ProductServiceInterface {
             product.setState(true);
         }
 
-        if(Objects.nonNull(newProduct.getCreatorId())){
+        if(newProduct.getCreatorId() != 0){
             product.setCreatorId(newProduct.getCreatorId());
         }
 
@@ -74,8 +70,18 @@ public class ProductService implements ProductServiceInterface {
         return productsRepository.save(product);
     }
 
-    @Override
     public void deleteProduct(Integer productId) {
         productsRepository.deleteById(productId);
+    }
+
+    public void changeProductState(Integer productId){
+        Product product = productsRepository.findById(productId).get();
+        product.setState(!product.getState());
+
+        productsRepository.save(product);
+    }
+
+    public List<Product> getProductByState(Boolean state) {
+        return productsRepository.findAllByState(state);
     }
 }
