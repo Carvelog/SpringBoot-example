@@ -5,50 +5,76 @@ import com.carlos.demo.models.RolesEnum;
 import com.carlos.demo.models.User;
 import com.carlos.demo.repository.RoleRepository;
 import com.carlos.demo.security.UserDTO;
+import com.carlos.demo.security.UserResponseDTO;
+import com.carlos.demo.security.jwt.JwtUtils;
 import com.carlos.demo.service.RoleService;
 import com.carlos.demo.service.UserService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
-public class UserController {
+public class AuthController {
 
     @Autowired private AuthenticationManager authenticationManager;
     @Autowired private PasswordEncoder passwordEncoder;
-
+    @Autowired private JwtUtils jwtUtils;
     @Autowired private UserService userService;
     @Autowired private RoleService roleService;
 
     @PostMapping("/signin")
-    public ResponseEntity<Object> authenticateUser(@RequestBody User userCredentials){
-        try{
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+    public ResponseEntity<Object> authenticateUser(@RequestBody UserDTO userDTO){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Gson gson = new Gson();
-            // problema con la recursion infinita
-            // arreglado comentando la variable users del POJO role
-            User user = userService.getUserByName(userCredentials.getUsername());
-            String json = gson.toJson(user);
+        UserDetails userDetails = userService.loadUserByUsername(userDTO.getUsername());
 
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
 
-            // create and return token
-            return new ResponseEntity<>("JWToken", HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>("User does not exists!.", HttpStatus.BAD_REQUEST);
-        }
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+        UserResponseDTO response = new UserResponseDTO(userDetails.getUsername(), roles);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new Gson().toJson(response));
+//        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response);
+//        try{
+//            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//            Gson gson = new Gson();
+//            // problema con la recursion infinita
+//            // arreglado comentando la variable users del POJO role
+//            User user = userService.getUserByName(userCredentials.getUsername());
+//            String json = gson.toJson(user);
+//
+//
+//            // create and return token
+//            return new ResponseEntity<>("JWToken", HttpStatus.OK);
+//        }catch (Exception e){
+//            return new ResponseEntity<>("User does not exists!.", HttpStatus.BAD_REQUEST);
+//        }
     }
 
     @PostMapping("/signup")
@@ -89,8 +115,7 @@ public class UserController {
 
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
-//        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-//        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(new MessageResponse("You've been signed out!"));
-        return new ResponseEntity<>("Endpoint in progress", HttpStatus.OK);
+        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body("");
     }
 }

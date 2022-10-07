@@ -36,12 +36,12 @@ public class SecurityConfig {
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/h2-console/**").permitAll();
-//                .and()
-//                .authorizeRequests().antMatchers("/auth/**").permitAll()
-//                .anyRequest().authenticated();
+                .antMatchers("/h2-console/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated();
 
-        http.csrf().disable();
+        http.cors().and().csrf().disable();
         http.headers().frameOptions().disable();
 
         return http.build();
@@ -53,8 +53,7 @@ public class SecurityConfig {
 //    }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authConfig) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 }
