@@ -1,0 +1,18 @@
+.header{
+    width: auto;
+    height: 60px;
+
+    background-color: rgb(226, 190, 137);
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sign-buttons-container{
+    margin: 10px;
+
+    display: flex;
+    justify-content: space-between;
+
+    width: 150px;
+}
