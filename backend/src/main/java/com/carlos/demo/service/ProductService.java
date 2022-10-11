@@ -34,6 +34,10 @@ public class ProductService implements ProductServiceInterface {
         return productsRepository.findById(productId).get();
     }
 
+    public Product findProductByItemCode(Integer itemCode) {
+        return productsRepository.findProductByItemCode(itemCode);
+    }
+
     public Product updateProduct(Integer productId, ProductDTO newProduct) {
         Product product = productsRepository.findById(productId).get();
 

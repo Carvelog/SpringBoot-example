@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isOpen: false
+    isOpen: false,
 }
 
 const modalSlice = createSlice({
@@ -12,7 +12,7 @@ const modalSlice = createSlice({
             state.isOpen = true
         },
         closeModal(state) {
-            state.isAuthenticated = false
+            state.isOpen = false
         }
     }
 })

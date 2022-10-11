@@ -8,6 +8,10 @@
     justify-content: flex-end;
 }
 
+.sign-buttons-container .signButtons{
+    width: 70px;
+}
+
 .sign-buttons-container{
     margin: 10px;
 

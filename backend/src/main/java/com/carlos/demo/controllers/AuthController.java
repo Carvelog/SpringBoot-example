@@ -9,6 +9,7 @@ import com.carlos.demo.security.UserResponseDTO;
 import com.carlos.demo.security.jwt.JwtUtils;
 import com.carlos.demo.service.RoleService;
 import com.carlos.demo.service.UserService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,8 +28,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://localhost:3000/", allowedHeaders = "*")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -56,8 +59,7 @@ public class AuthController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new Gson().toJson(response));
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(new Gson().toJson(response));
 //        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response);
 //        try{
 //            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
@@ -90,12 +92,12 @@ public class AuthController {
         List<String> strRoles = userDTO.getRoles();
         List<Role> roles = new ArrayList<>();
 
-        if (strRoles == null) {
+        if (strRoles == null ) {
             Role userRole = roleService.findByName(RolesEnum.USER.toString());
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
-                switch (role) {
+                switch (role.toLowerCase()) {
                     case "admin":
                         Role adminRole = roleService.findByName(RolesEnum.ADMIN.toString());
                         roles.add(adminRole);
@@ -109,8 +111,19 @@ public class AuthController {
         newUser.setRoles(roles);
 
         User savedUser = userService.saveUser(newUser);
+        UserDetails userDetails = userService.loadUserByUsername(savedUser.getUsername());
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
-        return new ResponseEntity<>(savedUser, HttpStatus.OK);
+        strRoles = new ArrayList<>();
+        for(Role role : savedUser.getRoles()){
+            strRoles.add(role.getRoleType().toString());
+        }
+
+        UserResponseDTO response = new UserResponseDTO(userDetails.getUsername(), strRoles);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(new Gson().toJson(response));
     }
 
     @PostMapping("/signout")

@@ -21,11 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Autowired public UserService userService;
-//  the same that
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return new UserService();
-//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -38,10 +33,14 @@ public class SecurityConfig {
                 .antMatchers("/").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/api/products/**").permitAll()
+                .antMatchers("/api/suppliers/**").permitAll()
                 .anyRequest().authenticated();
 
-        http.cors().and().csrf().disable();
+        http.cors().disable();
+        http.csrf().disable();
         http.headers().frameOptions().disable();
 
         return http.build();

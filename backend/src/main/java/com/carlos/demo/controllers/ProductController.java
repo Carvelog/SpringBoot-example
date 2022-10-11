@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/products")
 public class ProductController {
     @Autowired private ProductService productService;
     @Autowired private SuppliersProductsService suppliersProductsService;
@@ -34,8 +35,8 @@ public class ProductController {
     }
 
     @GetMapping("/product")
-    public ResponseEntity<Object> getProduct(@RequestParam(value = "id") Integer id){
-        Product prod = productService.getProduct(id);
+    public ResponseEntity<Object> getProduct(@RequestParam(value = "itemCode") Integer itemCode){
+        Product prod = productService.findProductByItemCode(itemCode);
         return new ResponseEntity<>(prod, HttpStatus.OK);
     }
 

@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProductsRepository extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT * FROM PRODUCTS p WHERE p.STATE=?1", nativeQuery = true)
     List<Product> findAllByState(Boolean state);
+
+    Product findProductByItemCode(Integer intemCode);
 }
