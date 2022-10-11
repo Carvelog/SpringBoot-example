@@ -5,7 +5,7 @@ import { modalActions } from '../../store/modal'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Modal from '../UI/Modal/Modal'
-import LoginForm from '../Forms/LoginForm'
+import LoginForm from '../LoginForm/LoginForm'
 
 import Button from '../UI/Button/Button'
 import { useState } from 'react'

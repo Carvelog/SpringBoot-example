@@ -1,9 +1,15 @@
 package com.carlos.demo.service;
 
 import com.carlos.demo.models.Product;
+import com.carlos.demo.models.User;
 import com.carlos.demo.repository.ProductsRepository;
+import com.carlos.demo.repository.UserRepository;
 import com.carlos.demo.security.ProductDTO;
+import com.carlos.demo.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,11 +20,19 @@ import java.util.Objects;
 public class ProductService implements ProductServiceInterface {
 
     @Autowired private ProductsRepository productsRepository;
+    @Autowired private UserRepository userRepository;
 
     public Product saveProduct(Product product) {
         if(!Objects.nonNull(product.getState())){
             product.setState(true);
         }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        User currentUser = userRepository.findByUsername(username);
+        product.setCreatorId(currentUser.getId());
+
         if(!Objects.nonNull(product.getCreationDate())){
             Date date = new Date();
             product.setCreationDate(date);
