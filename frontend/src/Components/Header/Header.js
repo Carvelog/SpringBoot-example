@@ -1,4 +1,5 @@
-import style from './Header.module.css'
+import styles from './Header.module.css'
+import { NavLink } from "react-router-dom"
 
 import { modalActions } from '../../store/modal'
 import { useDispatch, useSelector } from 'react-redux'
@@ -48,21 +49,27 @@ const Header = () => {
     }
 
     return (
-        <div className={style.header}>{
-            !isAuthenticated ?
-            <>
-                <div className={style['sign-buttons-container']}>
-                    <Button className={style.signButtons} onClick={loginHandler}>Log in</Button>
-                    <Button className={style.signButtons} onClick={logupHandler}>Log up</Button>
-                </div>
-                {isModalOpen && isLogin && <Modal onClose={modalCloseHandler} content={<LoginForm isLogin={isLogin}/>}/>}
-                {isModalOpen && isLogup && <Modal onClose={modalCloseHandler} content={<LoginForm isLogin={isLogin}/>}/>}
-            </>
-            :
-            <div className={style['sign-buttons-container']}>
-                <Button className={style.signButtons} onClick={logoutHandler}>Log out</Button>
+        <div className={styles.header}>
+            <nav className={styles['nav-container']}>
+                <NavLink style={{ textDecoration: 'none' }} to="/items">Items</NavLink>
+                <NavLink style={{ textDecoration: 'none' }} to="/newitem"><span>Add Item</span></NavLink>
+            </nav>
+
+            <div className={styles['sign-buttons-container']}>
+                {
+                    !isAuthenticated ?
+                    <div className={styles['sign-buttons']}>
+                        <Button onClick={loginHandler}>Log in</Button>
+                        <Button onClick={logupHandler}>Log up</Button>
+                    </div>
+                    :
+                    <div className={styles['logout-button']}>
+                        <Button onClick={logoutHandler}>Log out</Button>
+                    </div>
+                }
             </div>
-            }
+            {isModalOpen && isLogin && <Modal onClose={modalCloseHandler} content={<LoginForm isLogin={isLogin}/>}/>}
+            {isModalOpen && isLogup && <Modal onClose={modalCloseHandler} content={<LoginForm isLogin={isLogin}/>}/>}
         </div>
     )
 }

@@ -15,14 +15,14 @@ const ItemCard = (props) => {
             return response
         }
         getItemCreator(props.item.creatorId).then(user => setItemCreator(user))
-    }, [])
+    }, [props.item.creatorId])
 
 
     return (
         <Card className={styles.itemCard}>
             {props.item.description && <h2>{props.item.description}</h2>}
             {props.item.itemCode && <p>Item code: {props.item.itemCode}</p>}
-            {props.item.state && <p>Item state: {props.item.state ? 'Activo' : 'Inactivo'}</p>}
+            <p>Item state: {props.item.state ? 'Activo' : 'Inactivo'}</p>
             {props.item.price && <p>Price: {props.item.price}€</p>}
             {props.item.creationDate && <p>Creation date: {props.item.creationDate.split("T")[0]}</p>}
             {itemCreator != null && <p>Creator: {itemCreator.username}</p>}

@@ -26,7 +26,7 @@ public class UserController {
 
 //    @PreAuthorize("hasRole('USER')")
     @GetMapping("/user")
-    public ResponseEntity<Object> getUser(@RequestParam(value = "id") String id){
+    public ResponseEntity<Object> getUser(@RequestParam(value = "id") Integer id){
         User user = userService.getUserById(id).get();
 
         List<String> strRoles = new ArrayList<>();
