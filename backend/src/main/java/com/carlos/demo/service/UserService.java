@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,5 +40,8 @@ public class UserService implements UserDetailsService {
     public Boolean existsByUsername(String username) { return userRepository.existsByUsername(username); }
     public User getUserByName(String username) {
         return userRepository.findByUsername(username);
+    }
+    public Optional<User> getUserById(Integer creatorId) {
+        return userRepository.findById(creatorId);
     }
 }

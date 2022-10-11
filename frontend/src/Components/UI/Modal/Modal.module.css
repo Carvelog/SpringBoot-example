@@ -2,11 +2,23 @@
     padding: 10px;
     background-color: white;
     border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .modalHeader{
     margin: 5px;
-    float: right;
+    display: flex;
+    width: auto;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modalHeader .title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .modalFooter{

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import itemService from "../services/ItemService";
 
 const initialState = {
     items:[]
@@ -21,34 +22,8 @@ export const itemsActions = itemsSlice.actions
 export default itemsSlice.reducer
 
 export const fetchItems = () => {
-    return async (dispatch) => {
-      const fetchData = async () => {
-        const response = await fetch(
-          'http://localhost:8080/api/products/products',
-            {
-                method: 'GET',
-                redirect: 'follow',
-                cors: 'no-cors',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-            }
-        );
-  
-        if (!response.ok) {
-          throw new Error('Could not fetch items data!');
-        }
-  
-        const data = await response.json()
-  
-        return data;
-      };
-  
-      try {
-        const items = await fetchData()
-        dispatch(itemsActions.add(items));
-      } catch (error) {
-        alert(error)
-      }
-    }
-  }
+	return async (dispatch) => {
+		const items = await itemService.getItems()
+		dispatch(itemsActions.add(items));
+	}
+}

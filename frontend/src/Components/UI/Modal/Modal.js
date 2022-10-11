@@ -2,8 +2,8 @@ import styles from './Modal.module.css'
 import { createPortal } from 'react-dom'
 import { useDispatch } from 'react-redux';
 
-import { modalActions } from '../../store/modal'
-import Button from '../UI/Button/Button';
+import { modalActions } from '../../../store/modal'
+import Button from '../Button/Button';
 
 const Backdrop = (props) => {
     return <div className={`${styles.backdrop} closeModal`} onClick={props.onClose}>{props.children}</div>
@@ -14,6 +14,9 @@ const ModalContent = (props) => {
         <Backdrop onClose={props.onClose}>
             <div className={styles.modal}>
                 <div className={styles.modalHeader}>
+                    <div className={styles.title}>
+                        <h2>{props.header}</h2>
+                    </div>
                     <Button className='closeModal' onClick={props.onClose}>X</Button>
                 </div>
                 <div className={styles.modalContent}>
@@ -40,6 +43,7 @@ const Modal = (props) => {
     return (
         createPortal(
         <ModalContent 
+            header={props.header}
             content={props.content}
             onClose={props.onClose ? props.onClose : closeModalHandler}
         />, 

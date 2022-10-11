@@ -1,12 +1,9 @@
 import { useState } from "react"
-import styles from '../Forms.module.css'
-import Button from "../../UI/Button/Button"
+import styles from './Forms.module.css'
+import Button from "../UI/Button/Button"
 import { useDispatch } from "react-redux"
-import { modalActions } from "../../../store/modal"
-import { authActions } from "../../../store/auth"
-import AuthService from "../../../services/authService"
-
-const AUTH_API_URL = 'http://localhost:8080/auth/'
+import { modalActions } from "../../store/modal"
+import AuthService from "../../services/authService"
 
 const postSubmitUserData = async (username, password, isLogin) => {
 

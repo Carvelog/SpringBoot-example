@@ -1,7 +1,7 @@
 import './App.css';
 
 import Header from './Components/Header/Header'
-import ItemList from './Components/ItemList/ItemList';
+import ItemList from './Components/ItemsList/ItemsList';
 
 import { useSelector, useDispatch } from 'react-redux';
 

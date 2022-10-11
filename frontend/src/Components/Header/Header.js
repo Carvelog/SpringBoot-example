@@ -3,8 +3,8 @@ import style from './Header.module.css'
 import { modalActions } from '../../store/modal'
 import { useDispatch, useSelector } from 'react-redux'
 
-import Modal from '../Modal/Modal'
-import LoginForm from '../Forms/LoginForm/LoginForm'
+import Modal from '../UI/Modal/Modal'
+import LoginForm from '../Forms/LoginForm'
 
 import Button from '../UI/Button/Button'
 import { useState } from 'react'

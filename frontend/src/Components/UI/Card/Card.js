@@ -3,11 +3,12 @@ import styles from './Card.module.css'
 
 const Card = (props) => {
     const onClickHandler = (e) => {
-        props.onClick(e)
+        if(props.onClick)
+            props.onClick(e)
     }
 
     return (
-        <div onClick={onClickHandler} className={styles.card}>
+        <div onClick={onClickHandler} className={props.className ? `${styles.card} ${props.className}` : styles.card}>
             {props.children}
         </div>
     )

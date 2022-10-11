@@ -76,14 +76,10 @@ const logout = async () => {
         if (!response.ok) {
         throw new Error('Could not login the user data!');
         }
-
-        // const data = await response.json()
-
-        // return data;
     }
 
     try {
-      const data = await sendData()
+      await sendData()
       localStorage.removeItem("user");
       window.location.reload()
     } catch (error) {

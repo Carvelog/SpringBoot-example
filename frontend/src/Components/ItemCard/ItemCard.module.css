@@ -1,0 +1,27 @@
+.itemCard{
+    width: 400px;
+}
+
+.itemCard:hover{
+    cursor: auto;
+}
+
+.suppliers{
+    display: flex;
+    flex-direction: column;
+}
+.suppliers li{
+    list-style: circle;
+}
+
+.suppliers li div{
+    display: flex;
+}
+
+.reducedPrice li{
+    list-style: circle;
+}
+
+.reducedPrice li div{
+    display: flex;
+}

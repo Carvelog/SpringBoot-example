@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/api/products/**").permitAll()
                 .antMatchers("/api/suppliers/**").permitAll()
+                .antMatchers("/api/users/**").permitAll()
                 .anyRequest().authenticated();
 
         http.cors().disable();
