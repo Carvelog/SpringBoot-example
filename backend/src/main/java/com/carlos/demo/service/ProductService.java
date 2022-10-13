@@ -36,6 +36,9 @@ public class ProductService implements ProductServiceInterface {
             product.setCreatorId(currentUser.getId());
         }
 
+        // mocked data
+        product.setCreatorId(1);
+
         if(!Objects.nonNull(product.getCreationDate())){
             Date date = new Date();
             product.setCreationDate(date);

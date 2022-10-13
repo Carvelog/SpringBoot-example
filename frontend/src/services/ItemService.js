@@ -1,31 +1,45 @@
+import axios from "axios";
+
 const getItems = async () => {
-    const fetchData = async () => {
-        const response = await fetch(
-            'http://localhost:8080/api/products/products',
-            {
-                method: 'GET',
-                redirect: 'follow',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Cookie': 'carlos_a_cookie=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXBhIiwiaWF0IjoxNjY1NjYzODc4LCJleHAiOjE2NjU3NTAyNzh9.WjelgAS2tFQdv2Zf7TTvbPJoYM5_F96nMtHK45UwhQdNDUOafORihA_OgMZZTOT7pO8EDGtz_f66Moqo5uSCdA; JSESSIONID=7CC4A666BF63FE9BB686C1B9A6F4E898'
-                },
-            }
-        );
-  
-        if (!response.ok) {
+    try {
+        const response = await axios.get('http://localhost:8080/api/products/products');
+        if (response.status !== 200) {
           throw new Error('Could not fetch items data!');
         }
-  
-        const data = await response.json()
-        return data;
-    };
 
-    try {
-        const items = await fetchData()
-        return items
+        const data = await response.data
+        return data;
     } catch (error) {
-        alert(error)
+        console.error(error);
     }
+    // const fetchData = async () => {
+    //     const response = await fetch(
+    //         'http://localhost:8080/api/products/products',
+    //         {
+    //             method: 'GET',
+    //             redirect: 'follow',
+    //             credentials: 'same-origin',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Cookie': 'carlos_a_cookie=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXBhIiwiaWF0IjoxNjY1NjYzODc4LCJleHAiOjE2NjU3NTAyNzh9.WjelgAS2tFQdv2Zf7TTvbPJoYM5_F96nMtHK45UwhQdNDUOafORihA_OgMZZTOT7pO8EDGtz_f66Moqo5uSCdA; JSESSIONID=7CC4A666BF63FE9BB686C1B9A6F4E898'
+    //             },
+    //         }
+    //     );
+  
+    //     if (!response.ok) {
+    //       throw new Error('Could not fetch items data!');
+    //     }
+  
+    //     const data = await response.json()
+    //     return data;
+    // };
+
+    // try {
+    //     const items = await fetchData()
+    //     return items
+    // } catch (error) {
+    //     alert(error)
+    // }
 }
 
 const getItem = async (itemCode) => {
@@ -35,6 +49,7 @@ const getItem = async (itemCode) => {
             {
                 method: 'GET',
                 redirect: 'follow',
+                credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -63,6 +78,7 @@ const addNewItem = async (newItem) => {
             'http://localhost:8080/api/products/product',
             {
                 method: 'POST',
+                credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -93,6 +109,7 @@ const itemCreator = async (creatorId) => {
             {
                 method: 'GET',
                 redirect: 'follow',
+                credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json',
                 },

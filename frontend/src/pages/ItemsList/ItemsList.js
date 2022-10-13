@@ -27,7 +27,7 @@ const ItemList = () => {
 
     useEffect(() => {
         if(isAuthenticated)
-          dispatch(fetchItems())
+            dispatch(fetchItems())
     }, [isAuthenticated, dispatch])
 
     return (
