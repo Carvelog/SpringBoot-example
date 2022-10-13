@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react"
 import itemService from "../../services/ItemService"
 import Card from "../UI/Card/Card"
-
 import styles from './ItemCard.module.css'
-
-
 
 const ItemCard = (props) => {
     const [itemCreator, setItemCreator] = useState('')

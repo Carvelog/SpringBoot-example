@@ -1,0 +1,50 @@
+.header{
+    display: flex;
+    justify-content: center;
+}
+
+.section{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 20%;
+}
+
+.form{
+    padding: 20px;
+    width: 100%;
+    height: auto;
+}
+
+.form div{
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    margin: 10px;
+}
+
+.form div input{
+    padding: 5px;
+    border: 0ch;
+    border-bottom: 1px solid black;
+    width: 50%;
+}
+
+.form div input {
+    justify-self: flex-start;
+}
+
+.form div label {
+    justify-self: flex-end;
+    margin-right: 15px;
+}
+
+.form div input.state-input{
+    width: 15px;
+    height: 15px;
+}
+
+.button-submit{
+    grid-column: 1 / span 2;
+    justify-self: center;
+    padding: 10px 15px;
+}

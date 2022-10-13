@@ -1,8 +1,15 @@
 import { useState } from "react"
+
 import styles from './Forms.module.css'
 import Button from "../UI/Button/Button"
-import { useDispatch } from "react-redux"
+
+import { useDispatch,useSelector } from "react-redux"
+
+import { useNavigate } from "react-router-dom"
+
 import { modalActions } from "../../store/modal"
+import { authActions } from '../../store/auth'
+
 import AuthService from "../../services/authService"
 
 const postSubmitUserData = async (username, password, isLogin) => {
@@ -14,18 +21,21 @@ const LoginForm = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const onSubmitHandler = (e) => {
         e.preventDefault()
     
         postSubmitUserData(username, password, props.isLogin)
-        // redirect to /Products
 
         setUsername('')
         setPassword('')
         
+        dispatch(authActions.signin())
         dispatch(modalActions.closeModal())
+
+        navigate('/items')
     }
       
     const usernameHandler = (e) => {

@@ -24,7 +24,6 @@ const logup = async (username, password) => {
     try {
       const data = await sendData()
       localStorage.setItem("user", JSON.stringify(data))
-      window.location.reload()
     } catch (error) {
       alert(error)
     }
@@ -54,7 +53,6 @@ const login = async (username, password) => {
     try {
       const data = await sendData()
       localStorage.setItem("user", JSON.stringify(data))
-      window.location.reload()
     } catch (error) {
       alert(error)
     }
@@ -81,7 +79,6 @@ const logout = async () => {
     try {
       await sendData()
       localStorage.removeItem("user");
-      window.location.reload()
     } catch (error) {
       alert(error)
     }

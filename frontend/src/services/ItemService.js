@@ -1,9 +1,7 @@
-const ITEM_API_URL = 'http://localhost:8080/api/products/'
-
 const getItems = async () => {
     const fetchData = async () => {
         const response = await fetch(
-            ITEM_API_URL + 'products',
+            'http://localhost:8080/api/products/products',
             {
                 method: 'GET',
                 redirect: 'follow',
@@ -33,7 +31,7 @@ const getItems = async () => {
 const getItem = async (itemCode) => {
     const fetchData = async (itemCode) => {
         const response = await fetch(
-            ITEM_API_URL + `product?itemCode=${itemCode}`,
+            `http://localhost:8080/api/products/product?itemCode=${itemCode}`,
             {
                 method: 'GET',
                 redirect: 'follow',
@@ -55,6 +53,35 @@ const getItem = async (itemCode) => {
     try {
         const item = await fetchData(itemCode)
         return item
+    } catch (error) {
+        alert(error)
+    }
+}
+
+const addNewItem = async (newItem) => {
+    const fetchData = async (newItem) => {
+        const response = await fetch(
+            'http://localhost:8080/api/products/product',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newItem)
+            }
+        );
+  
+        if (!response.ok) {
+          throw new Error('There was a problem saving the new item')
+        }
+  
+        const data = await response.json()
+        return data
+    };
+
+    try {
+        const user = await fetchData(newItem)
+        return user
     } catch (error) {
         alert(error)
     }
@@ -93,6 +120,7 @@ const itemCreator = async (creatorId) => {
 const itemService = {
     getItems,
     getItem,
+    addNewItem,
     itemCreator
 }
 

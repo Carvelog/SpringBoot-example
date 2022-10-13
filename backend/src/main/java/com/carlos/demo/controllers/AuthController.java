@@ -60,23 +60,6 @@ public class AuthController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(new Gson().toJson(response));
-//        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response);
-//        try{
-//            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//            Gson gson = new Gson();
-//            // problema con la recursion infinita
-//            // arreglado comentando la variable users del POJO role
-//            User user = userService.getUserByName(userCredentials.getUsername());
-//            String json = gson.toJson(user);
-//
-//
-//            // create and return token
-//            return new ResponseEntity<>("JWToken", HttpStatus.OK);
-//        }catch (Exception e){
-//            return new ResponseEntity<>("User does not exists!.", HttpStatus.BAD_REQUEST);
-//        }
     }
 
     @PostMapping("/signup")

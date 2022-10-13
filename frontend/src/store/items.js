@@ -12,6 +12,9 @@ const itemsSlice = createSlice({
         add(state, action) {
             state.items = action.payload
         },
+        addItem(state, action){
+            state.items.push(action.payload)
+        },
         remove(state, action) {
             state.items = []
         }
