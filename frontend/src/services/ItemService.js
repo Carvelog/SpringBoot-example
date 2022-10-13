@@ -21,7 +21,6 @@ const getItems = async () => {
     //             credentials: 'same-origin',
     //             headers: {
     //                 'Content-Type': 'application/json',
-    //                 'Cookie': 'carlos_a_cookie=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXBhIiwiaWF0IjoxNjY1NjYzODc4LCJleHAiOjE2NjU3NTAyNzh9.WjelgAS2tFQdv2Zf7TTvbPJoYM5_F96nMtHK45UwhQdNDUOafORihA_OgMZZTOT7pO8EDGtz_f66Moqo5uSCdA; JSESSIONID=7CC4A666BF63FE9BB686C1B9A6F4E898'
     //             },
     //         }
     //     );
@@ -132,11 +131,23 @@ const itemCreator = async (creatorId) => {
     }
 }
 
+const changeItemState = async (itemId) => {
+    try {
+        const response = await axios.put(`http://localhost:8080/api/products/product/changestate?id=${itemId}`);
+        if (response.status !== 200) {
+          throw new Error('Change state not possible');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 const itemService = {
     getItems,
     getItem,
     addNewItem,
-    itemCreator
+    itemCreator,
+    changeItemState
 }
 
 export default itemService

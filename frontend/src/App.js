@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { Route, Routes } from 'react-router-dom'
 
 import { authActions } from "./store/auth"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import Header from './Components/Header/Header'
 import ItemList from './pages/ItemsList/ItemsList'
