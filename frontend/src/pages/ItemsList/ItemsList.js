@@ -25,6 +25,11 @@ const ItemList = () => {
         setItem(item)
     }
 
+    useEffect(() => {
+        if(isAuthenticated)
+          dispatch(fetchItems())
+    }, [isAuthenticated, dispatch])
+
     return (
        <Section>
         {isModalOpen && item && <Modal header='Item Data' content={<ItemCard item={item} />} />}

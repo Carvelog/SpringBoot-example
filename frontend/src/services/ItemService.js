@@ -5,9 +5,9 @@ const getItems = async () => {
             {
                 method: 'GET',
                 redirect: 'follow',
-                cors: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Cookie': 'carlos_a_cookie=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXBhIiwiaWF0IjoxNjY1NjYzODc4LCJleHAiOjE2NjU3NTAyNzh9.WjelgAS2tFQdv2Zf7TTvbPJoYM5_F96nMtHK45UwhQdNDUOafORihA_OgMZZTOT7pO8EDGtz_f66Moqo5uSCdA; JSESSIONID=7CC4A666BF63FE9BB686C1B9A6F4E898'
                 },
             }
         );
@@ -35,7 +35,6 @@ const getItem = async (itemCode) => {
             {
                 method: 'GET',
                 redirect: 'follow',
-                cors: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -94,7 +93,6 @@ const itemCreator = async (creatorId) => {
             {
                 method: 'GET',
                 redirect: 'follow',
-                cors: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },

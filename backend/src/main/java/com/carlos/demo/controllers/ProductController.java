@@ -7,15 +7,18 @@ import com.carlos.demo.security.ProductDTO;
 import com.carlos.demo.service.PriceReductionsProductsService;
 import com.carlos.demo.service.ProductService;
 import com.carlos.demo.service.SuppliersProductsService;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -28,9 +31,11 @@ public class ProductController {
         return productService.saveProduct(product);
     }
 
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/products")
     public ResponseEntity<Object> getProducts(){
         List<Product> prod = productService.getProducts();
+
         return new ResponseEntity<>(prod, HttpStatus.OK);
     }
 

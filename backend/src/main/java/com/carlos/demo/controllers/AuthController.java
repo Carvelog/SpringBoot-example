@@ -44,22 +44,27 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<Object> authenticateUser(@RequestBody UserDTO userDTO){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try{
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = userService.loadUserByUsername(userDTO.getUsername());
+            UserDetails userDetails = userService.loadUserByUsername(userDTO.getUsername());
 
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
 
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+            ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
-        UserResponseDTO response = new UserResponseDTO(userDetails.getUsername(), roles);
+            UserResponseDTO response = new UserResponseDTO(userDetails.getUsername(), roles);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(new Gson().toJson(response));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(new Gson().toJson(response));
+        } catch (Exception e) {
+            String response = "The user with username: " + userDTO.getUsername() + ", does not exists.";
+            return ResponseEntity.ok().body(new Gson().toJson(response));
+        }
     }
 
     @PostMapping("/signup")
@@ -94,6 +99,10 @@ public class AuthController {
         newUser.setRoles(roles);
 
         User savedUser = userService.saveUser(newUser);
+
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         UserDetails userDetails = userService.loadUserByUsername(savedUser.getUsername());
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 

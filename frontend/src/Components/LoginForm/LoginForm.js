@@ -14,6 +14,8 @@ import AuthService from "../../services/authService"
 
 const postSubmitUserData = async (username, password, isLogin) => {
 
+    console.log(isLogin ? 'login': 'logup')
+
     return isLogin ? AuthService.login(username, password) : AuthService.logup(username, password)
 }
 

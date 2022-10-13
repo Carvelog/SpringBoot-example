@@ -7,6 +7,7 @@ import com.carlos.demo.repository.UserRepository;
 import com.carlos.demo.security.ProductDTO;
 import com.carlos.demo.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,10 +29,12 @@ public class ProductService implements ProductServiceInterface {
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            String username = auth.getName();
 
-        User currentUser = userRepository.findByUsername(username);
-        product.setCreatorId(currentUser.getId());
+            User currentUser = userRepository.findByUsername(username);
+            product.setCreatorId(currentUser.getId());
+        }
 
         if(!Objects.nonNull(product.getCreationDate())){
             Date date = new Date();
