@@ -1,0 +1,19 @@
+.price-reduction-container{
+    border-top: 1px solid lightgray;
+    grid-column: 2 / span 2; 
+}
+
+.price-reduction-container div{
+    grid-template-columns: 150px 200px;
+    grid-column: 1 / span 2; 
+    justify-self: stretch;
+    align-self: flex-end;
+}
+
+.price-reduction-container div label{
+    justify-self: flex-start;
+}
+
+.price-reduction-container div input{
+    width: 90%;
+}

@@ -7,10 +7,13 @@ import styles from './ItemForm.module.css'
 import itemService from "../../services/ItemService"
 import { useDispatch } from 'react-redux'
 import { itemsActions } from "../../store/items"
+
+import PriceReductionForm from '../PriceReductionFrom/PriceReductionForm'
 import SuppliersForm from '../SupplierForm/SupplierForm'
 
 const ItemForm = () => {
     const [addSupplierComponent, setAddSupplierComponent] = useState([])
+    const [addPriceReductionComponent, setAddPriceReductionComponent] = useState([])
 
     const dispatch = useDispatch()
 
@@ -18,29 +21,51 @@ const ItemForm = () => {
         e.preventDefault()
 
         let suppliersList = []
-        if(e.target.supplierName.length && e.target.supplierCountry.length){
-            e.target.supplierName.forEach((el,i) => {
-                suppliersList.push({
-                    name: el.value,
-                    country: e.target.supplierCountry[i].value
+        if(e.target.supplierName && e.target.supplierCountry){
+            if(e.target.supplierName.length && e.target.supplierCountry.length){
+                e.target.supplierName.forEach((el,i) => {
+                    suppliersList.push({
+                        name: el.value,
+                        country: e.target.supplierCountry[i].value
+                    })
                 })
-            })
-        } else {
-            suppliersList.push({
-                name: e.target.supplierName.value,
-                country: e.target.supplierCountry.value
-            })
+            } else {
+                suppliersList.push({
+                    name: e.target.supplierName.value,
+                    country: e.target.supplierCountry.value
+                })
+            }
         }
 
-        console.log(suppliersList)
+        let priceReductionsList = []
+        if(e.target.discount && e.target.startDate && e.target.endDate){
+            if(e.target.discount.length && e.target.startDate.length && e.target.endDate.length){
+                e.target.discount.forEach((el,i) => {
+                    priceReductionsList.push({
+                        reducedPrice: el.value,
+                        startDate: e.target.startDate[i].value,
+                        endDate: e.target.endDate[i].value
+                    })
+                })
+            } else {
+                priceReductionsList.push({
+                    reducedPrice: e.target.discount.value,
+                    startDate: e.target.startDate.value,
+                    endDate: e.target.endDate.value
+                })
+            }
+        }
 
         const itemData = {
             itemCode: e.target.itemCode.value,
             description: e.target.description.value,
             price: e.target.price.value ? e.target.price.value : 0,
             state: e.target.state.checked,
-            suppliers: suppliersList
+            suppliers: suppliersList,
+            priceReductions: priceReductionsList
         }
+
+        console.log(itemData)
 
         const itemSaved = await itemService.addNewItem(itemData)
         dispatch(itemsActions.addItem(itemSaved))
@@ -50,12 +75,15 @@ const ItemForm = () => {
         e.target.price.value = 0
         e.target.state.value = false
 
-        // window.location.reload()
+        window.location.reload()
     }
 
     const addSupplierHandler = () => {
-        console.log('add suplier form')
         setAddSupplierComponent(addSupplierComponent.concat(<SuppliersForm key={addSupplierComponent.length} />))
+    }
+
+    const addReductionHandler = () => {
+        setAddPriceReductionComponent(addPriceReductionComponent.concat(<PriceReductionForm key={addPriceReductionComponent.length} />))
     }
 
     return (
@@ -82,8 +110,13 @@ const ItemForm = () => {
                 </div>
                 <div>
                     <label>Suppliers:</label>
-                    <Button onClick={addSupplierHandler}>Add supplier</Button>
+                    <Button className={styles['add-button']} onClick={addSupplierHandler}>Add</Button>
                     {addSupplierComponent && addSupplierComponent.map(c => {return c})}
+                </div>
+                <div>
+                    <label>Price Reductions:</label>
+                    <Button className={styles['add-button']} onClick={addReductionHandler}>Add</Button>
+                    {addPriceReductionComponent && addPriceReductionComponent.map(co => {return co})}
                 </div>
                 <div>
                     <Button className={styles['button-submit']} type="submit">Add item</Button>

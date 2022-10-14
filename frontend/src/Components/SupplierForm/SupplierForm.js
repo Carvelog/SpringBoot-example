@@ -1,6 +1,8 @@
+import styles from './SupplierForm.module.css'
+
 const SuppliersForm = (props) => {
     return (
-        <div>
+        <div className={styles['supplier-container']}>
             <div>
                 <label>Name:</label>
                 <input type="text" name="supplierName"/>
