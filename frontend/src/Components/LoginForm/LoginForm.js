@@ -3,7 +3,7 @@ import { useState } from "react"
 import styles from './Forms.module.css'
 import Button from "../UI/Button/Button"
 
-import { useDispatch,useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { useNavigate } from "react-router-dom"
 
@@ -13,9 +13,6 @@ import { authActions } from '../../store/auth'
 import AuthService from "../../services/authService"
 
 const postSubmitUserData = async (username, password, isLogin) => {
-
-    console.log(isLogin ? 'login': 'logup')
-
     return isLogin ? AuthService.login(username, password) : AuthService.logup(username, password)
 }
 

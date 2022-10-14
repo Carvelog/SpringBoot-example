@@ -137,6 +137,8 @@ const changeItemState = async (itemId) => {
         if (response.status !== 200) {
           throw new Error('Change state not possible');
         }
+        const data = await response.data
+        return data;
     } catch (error) {
         console.error(error);
     }

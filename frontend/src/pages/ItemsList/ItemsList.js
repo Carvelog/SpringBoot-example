@@ -12,13 +12,13 @@ import Section from "../../Components/UI/Section/Section"
 import styles from './ItemsList.module.css'
 
 const ItemList = () => {
-    
-    const dispatch = useDispatch()
-    const [item, setItem] = useState(false)
-    
     const isModalOpen = useSelector(state => state.modal.isOpen)
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
     const items = useSelector(state => state.items.items)
+
+    const dispatch = useDispatch()
+    const [item, setItem] = useState(false)
+    
 
     const itemClickHandler = (item) => {
         dispatch(modalActions.openModal())

@@ -1,39 +1,52 @@
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+
 import itemService from "../../services/ItemService"
 import Card from "../UI/Card/Card"
 import styles from './ItemCard.module.css'
 
+import { itemsActions } from "../../store/items"
+
 const ItemCard = (props) => {
     const [itemCreator, setItemCreator] = useState('')
+    const [item, setItem] = useState(props.item ? props.item : {})
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const getItemCreator = async (creatorId) => {
             const response = await itemService.itemCreator(creatorId)
             return response
         }
-        getItemCreator(props.item.creatorId).then(user => setItemCreator(user))
-    }, [props.item.creatorId])
+        getItemCreator(item.creatorId).then(user => setItemCreator(user))
+    }, [item.creatorId])
 
-    const changeItemStateHandler = async () => {
-        await itemService.changeItemState(props.item.id)
+    const changeItemStateHandler = async (e) => {
+        const updatedItem = await itemService.changeItemState(item.id)
+        setItem(updatedItem)
+        dispatch(itemsActions.update(updatedItem))
     }
+
+    useEffect(() => {
+        setItem(props.item)
+    }, [props.item])
 
     return (
         <Card className={styles.itemCard}>
-            {props.item.description && <h2>{props.item.description}</h2>}
-            {props.item.itemCode && <p>Item code: {props.item.itemCode}</p>}
+            {item.description && <h2>{item.description}</h2>}
+            {item.itemCode && <p>Item code: {item.itemCode}</p>}
             <div>
-                <p>Item state: {props.item.state ? 'Activo' : 'Inactivo'}</p>
-                <button onClick={changeItemStateHandler}>{props.item.state ? 'Desactivar' : 'Activar'}</button>
+                <p>Item state: {item.state ? 'Activo' : 'Descontinuado'}</p>
+                <button onClick={changeItemStateHandler}>{item.state ? 'Descontinuar' : 'Activar'}</button>
             </div>
-            {props.item.price && <p>Price: {props.item.price}€</p>}
-            {props.item.creationDate && <p>Creation date: {props.item.creationDate.split("T")[0]}</p>}
+            {item.price && <p>Price: {item.price}€</p>}
+            {item.creationDate && <p>Creation date: {item.creationDate.split("T")[0]}</p>}
             {itemCreator != null && <p>Creator: {itemCreator.username}</p>}
-            {props.item.suppliers.length > 0 && 
+            {item.suppliers.length > 0 && 
                 <div>
                     <p>Suppliers:</p>
                     <ul className={styles.suppliers}>
-                    {props.item.suppliers.map((e, i) => {
+                    {item.suppliers.map((e, i) => {
                         return (
                             <li key={i}>
                                 <div> 
@@ -46,11 +59,11 @@ const ItemCard = (props) => {
                     </ul>
                 </div>
             }
-            {props.item.priceReductions.length > 0 && 
+            {item.priceReductions.length > 0 && 
                 <div>
                     <p>Peduced Price:</p>
                     <ul className={styles.reducedPrice}>
-                    {props.item.priceReductions.map((e, i) => {
+                    {item.priceReductions.map((e, i) => {
                         return (
                             <li key={i}>
                                 <div>

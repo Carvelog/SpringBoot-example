@@ -6,7 +6,7 @@ const initialState = {
 }
 
 const itemsSlice = createSlice({
-    name: 'auth',
+    name: 'items',
     initialState,
     reducers: {
         add(state, action) {
@@ -14,6 +14,10 @@ const itemsSlice = createSlice({
         },
         addItem(state, action){
             state.items.push(action.payload)
+        },
+        update(state, action){
+            const itemID = state.items.map((e) => e.id).indexOf(action.payload.id)
+            state.items[itemID] = action.payload
         },
         remove(state, action) {
             state.items = []
