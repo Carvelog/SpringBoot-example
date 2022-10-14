@@ -29,7 +29,7 @@ public class Product {
     @Column(name = "CREATORID", nullable = false)
     private int creatorId;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "SUPPLIERSPRODUCTS",
             joinColumns = @JoinColumn(name = "PRODUCTID"),
@@ -37,7 +37,7 @@ public class Product {
     )
     Set<Supplier> suppliers;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "PRICEREDUCTIONSPRODUCTS",
             joinColumns = @JoinColumn(name = "PRODUCTID"),

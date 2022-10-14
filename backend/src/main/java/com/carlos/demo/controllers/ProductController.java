@@ -58,9 +58,9 @@ public class ProductController {
     }
 
     @PutMapping("/product/changestate")
-    public ResponseEntity<String> changeProductState(@RequestParam(value = "id") Integer id){
-        productService.changeProductState(id);
-        return new ResponseEntity<>("Product state changed successfully", HttpStatus.OK);
+    public ResponseEntity<Object> changeProductState(@RequestParam(value = "id") Integer id){
+        Product prod = productService.changeProductState(id);
+        return new ResponseEntity<>(prod, HttpStatus.OK);
     }
 
     @DeleteMapping("/product/{id}")

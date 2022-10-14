@@ -98,11 +98,13 @@ public class ProductService implements ProductServiceInterface {
         productsRepository.deleteById(productId);
     }
 
-    public void changeProductState(Integer productId){
+    public Product changeProductState(Integer productId){
         Product product = productsRepository.findById(productId).get();
         product.setState(!product.getState());
 
         productsRepository.save(product);
+
+        return product;
     }
 
     public List<Product> getProductByState(Boolean state) {

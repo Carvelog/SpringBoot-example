@@ -21,7 +21,7 @@ public class Supplier {
     private String country;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "suppliers", cascade = CascadeType.ALL ) //name of the variable which specifies ManyToMany annotation
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "suppliers" ) //name of the variable which specifies ManyToMany annotation
     @JsonIgnore
     private Set<Product> products = new HashSet<Product>();
 

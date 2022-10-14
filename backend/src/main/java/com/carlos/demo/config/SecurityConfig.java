@@ -59,21 +59,39 @@ public class SecurityConfig {
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
+                .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/api/products/**").permitAll()
+                .antMatchers("/api/suppliers/**").permitAll()
                 .antMatchers("/api/users/**").permitAll()
                 .anyRequest().authenticated();
 
-        http.authenticationProvider(authenticationProvider());
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.cors().disable();
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
 
         return http.build();
+//        http.cors().and().csrf().disable()
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .authorizeRequests()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/h2-console/**").permitAll()
+//                .antMatchers("/auth/**").permitAll()
+//                .antMatchers("/api/products/**").permitAll()
+//                .antMatchers("/api/users/**").permitAll()
+//                .anyRequest().authenticated();
+//
+//        http.authenticationProvider(authenticationProvider());
+//
+//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+//        return http.build();
     }
 }
