@@ -31,10 +31,10 @@ const ItemList = () => {
     }, [isAuthenticated, dispatch])
 
     return (
-       <Section>
-        {isModalOpen && item && <Modal header='Item Data' content={<ItemCard item={item} />} />}
-        {items.length !== 0 && items.map((e, i) => { return <Item className={styles.item} key={i} item={e} onClick={itemClickHandler} /> })}
-        {items.length === 0 && <p>No data</p>}
+       <Section className={styles.section}>
+            {isModalOpen && item && <Modal header='Item Data' content={<ItemCard item={item} />} />}
+            {items.length !== 0 && items.map((e, i) => { return <Item className={styles.item} key={i} item={e} onClick={itemClickHandler} /> })}
+            {items.length === 0 && <p>No data</p>}
        </Section>
     )
 }
