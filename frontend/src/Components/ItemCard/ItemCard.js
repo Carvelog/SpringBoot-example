@@ -4,12 +4,15 @@ import { useDispatch } from "react-redux"
 import itemService from "../../services/ItemService"
 import Card from "../UI/Card/Card"
 import styles from './ItemCard.module.css'
+import Button from '../UI/Button/Button'
 
 import { itemsActions } from "../../store/items"
 
 const ItemCard = (props) => {
     const [itemCreator, setItemCreator] = useState('')
     const [item, setItem] = useState(props.item ? props.item : {})
+    const [reason, setReason] = useState('')
+    const [showReasonForm, setShowReasonForm] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -22,9 +25,13 @@ const ItemCard = (props) => {
     }, [item.creatorId])
 
     const changeItemStateHandler = async (e) => {
-        const updatedItem = await itemService.changeItemState(item.id)
+        const updatedItem = await itemService.changeItemState(item.id, reason)
         setItem(updatedItem)
         dispatch(itemsActions.update(updatedItem))
+    }
+
+    const reasonHandler = (e) => {
+        setReason(e.target.value)
     }
 
     useEffect(() => {
@@ -37,7 +44,15 @@ const ItemCard = (props) => {
             {item.itemCode && <p>Item code: {item.itemCode}</p>}
             <div>
                 <p>Item state: {item.state ? 'Activo' : 'Descontinuado'}</p>
-                <button onClick={changeItemStateHandler}>{item.state ? 'Descontinuar' : 'Activar'}</button>
+                <button onClick={() => {setShowReasonForm(!showReasonForm)}}>{item.state ? 'Descontinuar' : 'Activar'}</button>
+                {
+                showReasonForm && 
+                <div>
+                    <label>Reason:</label>
+                    <textarea name="reason" value={reason} onChange={reasonHandler} />
+                    <Button onClick={changeItemStateHandler}>Save</Button>
+                </div>
+                }
             </div>
             {item.price && <p>Price: {item.price}€</p>}
             {item.creationDate && <p>Creation date: {item.creationDate.split("T")[0]}</p>}

@@ -34,15 +34,17 @@ public class ProductService implements ProductServiceInterface {
 
             User currentUser = userRepository.findByUsername(username);
             product.setCreatorId(currentUser.getId());
+        } else {
+            // mocked data
+            product.setCreatorId(1);
         }
 
-        // mocked data
-        product.setCreatorId(1);
 
         if(!Objects.nonNull(product.getCreationDate())){
             Date date = new Date();
             product.setCreationDate(date);
         }
+
         return productsRepository.save(product);
     }
 

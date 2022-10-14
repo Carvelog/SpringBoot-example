@@ -1,11 +1,12 @@
 package com.carlos.demo.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "PRODUCTS")
-public class Product {
+public class Product implements Serializable {
 
     @Id
     @Column(name = "ID")
@@ -18,8 +19,10 @@ public class Product {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
     @Column(name = "PRICE")
     private Float price;
+
     @Column(name = "STATE")
     private Boolean state;
 
@@ -44,6 +47,9 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "PRICEREDUCTIONID")
     )
     List<PriceReductions> priceReductions;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<Reason> reasons;
 
     public Product() {
         suppliers = new HashSet<Supplier>();

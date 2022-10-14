@@ -58,7 +58,7 @@ public class ProductController {
     }
 
     @PutMapping("/product/changestate")
-    public ResponseEntity<Object> changeProductState(@RequestParam(value = "id") Integer id){
+    public ResponseEntity<Object> changeProductState(@RequestParam(value = "id") Integer id, @RequestBody String reason){
         Product prod = productService.changeProductState(id);
         return new ResponseEntity<>(prod, HttpStatus.OK);
     }
