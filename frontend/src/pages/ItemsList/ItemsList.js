@@ -26,6 +26,7 @@ const ItemList = () => {
     }
 
     useEffect(() => {
+        console.log(isAuthenticated)
         if(isAuthenticated)
             dispatch(fetchItems())
     }, [isAuthenticated, dispatch])

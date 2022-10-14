@@ -13,6 +13,7 @@ import { authActions } from '../../store/auth'
 import AuthService from "../../services/authService"
 
 const postSubmitUserData = async (username, password, isLogin) => {
+    console.log(isLogin ? 'isLogin' : 'no Login')
     return isLogin ? AuthService.login(username, password) : AuthService.logup(username, password)
 }
 
@@ -27,11 +28,19 @@ const LoginForm = (props) => {
         e.preventDefault()
     
         postSubmitUserData(username, password, props.isLogin)
+        .then(response => {
+            const data = response.data
+            localStorage.setItem("user", JSON.stringify(data))
+            dispatch(authActions.signin())
+        })
+        .catch(e => {
+            alert('Could not logup the user: ' + e);
+        })
 
         setUsername('')
         setPassword('')
         
-        dispatch(authActions.signin())
+        
         dispatch(modalActions.closeModal())
 
         navigate('/items')

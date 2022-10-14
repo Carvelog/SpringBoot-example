@@ -6,63 +6,41 @@ const instance = axios.create({
 })
 
 const logup = async (username, password) => {
-    // try {
-    //     // const response = await instance.post('http://localhost:8080/auth/signup', { username, password }, { withCredentials: true })
-    //     const response = await instance.post('http://localhost:8080/auth/signup', { username, password })
+    return axios.post( 'http://localhost:8080/auth/signup', { username, password })
+    // const sendData = async () => {
+    //     const response = await fetch(
+    //     AUTH_API_URL + 'signup',
+    //     {
+    //         method: 'POST',
+    //         credentials: 'same-origin',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({username, password})
+    //     }
+    //     )
 
-    //     if (response.status !== 200) {
-    //       throw new Error('Could not logup the user');
+    //     if (!response.ok) {
+    //     throw new Error('Could not logup the user data!');
     //     }
 
-    //     const data = await response.data
-    //     localStorage.setItem("user", JSON.stringify(data))
-    // } catch (error) {
-    //     console.error(error);
+    //     const data = await response.json()
+    //     return data;
     // }
-    const sendData = async () => {
-        const response = await fetch(
-        AUTH_API_URL + 'signup',
-        {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({username, password})
-        }
-        )
 
-        if (!response.ok) {
-        throw new Error('Could not logup the user data!');
-        }
-
-        const data = await response.json()
-        return data;
-    }
-
-    try {
-      const data = await sendData()
-      localStorage.setItem("user", JSON.stringify(data))
-    } catch (error) {
-      alert(error)
-    }
+    // try {
+    //   const data = await sendData()
+    //   localStorage.setItem("user", JSON.stringify(data))
+    // } catch (error) {
+    //   alert(error)
+    // }
 }
 
 const login = async (username, password) => {
-    try {
-        // const response = await axios.post( 'http://localhost:8080/auth/signin', { username, password}, { withCredentials: true})
-        const response = await axios.post( 'http://localhost:8080/auth/signin', { username, password})
 
-
-        if (response.status !== 200) {
-          throw new Error('Could not logup the user');
-        }
-
-        const data = await response.data
-        localStorage.setItem("user", JSON.stringify(data))
-    } catch (error) {
-        console.error(error);
-    }
+    // const response = await axios.post( 'http://localhost:8080/auth/signin', { username, password}, { withCredentials: true})
+    return axios.post( 'http://localhost:8080/auth/signin', { username, password})
+    
     // const sendData = async () => {
     //     const response = await fetch(
     //     AUTH_API_URL + 'signin',

@@ -63,7 +63,7 @@ public class AuthController {
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(new Gson().toJson(response));
         } catch (Exception e) {
             String response = "The user with username: " + userDTO.getUsername() + ", does not exists.";
-            return ResponseEntity.ok().body(new Gson().toJson(response));
+            return ResponseEntity.badRequest().body(new Gson().toJson(response));
         }
     }
 
