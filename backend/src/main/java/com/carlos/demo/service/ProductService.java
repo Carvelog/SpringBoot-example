@@ -84,6 +84,8 @@ public class ProductService implements ProductServiceInterface {
             product.setDescription(newProduct.getDescription());
         }
 
+        product.setCreationDate(new Date());
+
         if(Objects.nonNull(newProduct.getPrice())){
             product.setPrice(newProduct.getPrice());
         }

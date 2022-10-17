@@ -19,7 +19,6 @@ const ItemCard = (props) => {
 
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState(0)
-    const [creationDate, setCreationDate] = useState('')
 
     const [addSupplierComponent, setAddSupplierComponent] = useState([])
     const [addPriceReductionComponent, setAddPriceReductionComponent] = useState([])
@@ -60,8 +59,6 @@ const ItemCard = (props) => {
             setDescription(e.target.value)
         if(e.target.name === 'price')
             setPrice(e.target.value)
-        if(e.target.name === 'creationDate')
-            setCreationDate(e.target.value)
     }
 
     const addSupplierHandler = () => {
@@ -116,45 +113,72 @@ const ItemCard = (props) => {
         const newItemData = {
             description,
             price,
-            creationDate,
             suppliers: suppliersList,
             priceReductions: priceReductionsList
         }
 
         const updatedItem = await itemService.updateItem(item.id, newItemData)
-        if(updatedItem)
-            dispatch(itemsActions.update(updatedItem))
+        // if(updatedItem)
+        console.log(updatedItem)
+        setItem(updatedItem)
+        dispatch(itemsActions.update(updatedItem))
         setIsModified(false)
     }
 
     useEffect(() => {
-        setItem(props.item)
         setDescription(item.description)
         setPrice(item.price)
-        setCreationDate(item.creationDate.split("T")[0])
-    }, [props.item, item])
+    }, [item])
+
+    useEffect(() => {
+        setItem(props.item)
+    }, [props.item])
 
     return (
         <Card className={styles.itemCard}>
             <form onSubmit={saveChangesHandler}>
                 {item.description && <input className={styles.description} name="description" value={description} onChange={itemDataHandler}/>}
-                {item.itemCode && <p>Item code: {item.itemCode}</p>}
-                <div>
-                    <p>Item state: {item.state ? 'Activo' : 'Descontinuado'}</p>
-                    <Button onClick={() => {setShowReasonForm(!showReasonForm)}}>{item.state ? 'Descontinuar' : 'Activar'}</Button>
-                    {
-                    showReasonForm && 
-                    <div>
-                        <label>Reason:</label>
-                        <textarea name="reason" value={reason} onChange={reasonHandler} />
-                        <Button onClick={changeItemStateHandler}>Save</Button>
-                    </div>
+                <table>
+                    <tbody>
+                    {item.itemCode && <tr>
+                            <td>Item code:</td>
+                            <td>{item.itemCode}</td>
+                        </tr>
                     }
-                </div>
-                {item.price && <p>Price: €<input className={styles['item-input-data']} name="price" value={price} onChange={itemDataHandler}/></p>}
-                {item.creationDate && <p>Creation date: <input className={styles['item-input-data']} type="date" name="creationDate" value={creationDate} onChange={itemDataHandler}/></p>}
-                {itemCreator != null && <p>Creator: {itemCreator.username}</p>}
-                
+                    <tr>
+                        <td>Item state:</td>
+                        <td>
+                            {item.state ? 'Activo' : 'Descontinuado'}
+                            <Button onClick={() => {setShowReasonForm(!showReasonForm)}}>{item.state ? 'Descontinuar' : 'Activar'}</Button>
+                        </td>
+                    </tr>
+                    <tr>
+                        {
+                            showReasonForm && 
+                            <td>
+                                <label>Reason:</label>
+                                <textarea name="reason" value={reason} onChange={reasonHandler} />
+                                <Button onClick={changeItemStateHandler}>Save</Button>
+                            </td>
+                        }
+                    </tr>
+                    {item.price && <tr>
+                            <td>Price: €</td>
+                            <td><input className={styles['item-input-data']} name="price" value={price} onChange={itemDataHandler}/></td>
+                        </tr>
+                    }
+                    {item.creationDate && <tr>
+                            <td>Creation date:</td>
+                            <td>{item.creationDate.split("T")[0]}</td>
+                        </tr>
+                    }
+                    {itemCreator != null && <tr>
+                        <td>Creator:</td>
+                        <td>{itemCreator.username}</td>
+                    </tr>
+                    }
+                    </tbody>
+                </table>    
                 <div>
                     <div className={styles['add-new-section']}>
                         <p>Suppliers:</p>
@@ -163,18 +187,24 @@ const ItemCard = (props) => {
                     <div className={styles['add-new-form-section']}>
                         {addSupplierComponent && addSupplierComponent.map(c => {return c})}
                     </div>
-                    <ul className={styles.suppliers}>
-                    {item.suppliers.map((e, i) => {
-                        return (
-                            <li key={i}>
-                                <div> 
-                                    <p>Name: {e.name}</p>
-                                    <p>Country: {e.country}</p>
-                                </div>
-                            </li>
-                        )
-                    })}
-                    </ul>
+                    {item.suppliers.length > 0 &&
+                        <table className={styles.subtable}>
+                            <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Country</th>
+                                </tr>
+                            {item.suppliers.map((e, i) => {
+                                return (
+                                    <tr key={i}>
+                                        <td>{e.name}</td>
+                                        <td>{e.country}</td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    }
                 </div>
                 <div>
                     <div className={styles['add-new-section']}>
@@ -184,18 +214,26 @@ const ItemCard = (props) => {
                     <div className={styles['add-new-form-section']}>
                         {addPriceReductionComponent && addPriceReductionComponent.map(co => {return co})}
                     </div>
-                    <ul className={styles.reducedPrice}>
-                    {item.priceReductions.map((e, i) => {
-                        return (
-                            <li key={i}>
-                                <div>
-                                    <p>{(e.reducedPrice) * 100}%</p>
-                                    <p>From: {e.startDate.split("T")[0]} To: {e.endDate.split("T")[0]}</p>
-                                </div>
-                            </li>
-                        )
-                    })}
-                    </ul>
+                    {item.priceReductions.length > 0 && 
+                        <table className={styles.subtable}>
+                            <tbody>
+                                <tr>
+                                    <th>Percent (%)</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                </tr>
+                            {item.priceReductions.map((e, i) => {
+                                return (
+                                    <tr key={i}>
+                                        <td>{(e.reducedPrice) * 100}</td>
+                                        <td>{e.startDate.split("T")[0]}</td>
+                                        <td>{e.endDate.split("T")[0]}</td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    }
                 </div>
                 {isModified && <Button type="submit">Save changes</Button>}
             </form>

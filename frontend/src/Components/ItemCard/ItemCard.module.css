@@ -2,6 +2,10 @@
     width: 400px;
 }
 
+.itemCard form table{
+    width: 100%;
+}
+
 .itemCard:hover{
     cursor: auto;
 }
@@ -47,4 +51,8 @@
 
 .add-new-form-section div{
     margin-top: 10px;
+}
+
+.subtable {
+    text-align: center;
 }
