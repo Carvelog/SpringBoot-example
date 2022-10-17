@@ -65,8 +65,6 @@ const ItemForm = () => {
             priceReductions: priceReductionsList
         }
 
-        console.log(itemData)
-
         const itemSaved = await itemService.addNewItem(itemData)
         dispatch(itemsActions.addItem(itemSaved))
 

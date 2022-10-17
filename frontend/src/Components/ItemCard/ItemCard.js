@@ -118,8 +118,6 @@ const ItemCard = (props) => {
         }
 
         const updatedItem = await itemService.updateItem(item.id, newItemData)
-        // if(updatedItem)
-        console.log(updatedItem)
         setItem(updatedItem)
         dispatch(itemsActions.update(updatedItem))
         setIsModified(false)

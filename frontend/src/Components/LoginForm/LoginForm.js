@@ -13,7 +13,6 @@ import { authActions } from '../../store/auth'
 import AuthService from "../../services/authService"
 
 const postSubmitUserData = async (username, password, isLogin) => {
-    console.log(isLogin ? 'isLogin' : 'no Login')
     return isLogin ? AuthService.login(username, password) : AuthService.logup(username, password)
 }
 
