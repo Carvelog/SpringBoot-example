@@ -1,10 +1,13 @@
 package com.carlos.demo.service;
 
 import com.carlos.demo.models.Product;
+import com.carlos.demo.models.Reason;
 import com.carlos.demo.models.User;
 import com.carlos.demo.repository.ProductsRepository;
+import com.carlos.demo.repository.ReasonRepository;
 import com.carlos.demo.repository.UserRepository;
 import com.carlos.demo.security.ProductDTO;
+import com.carlos.demo.security.ReasonDTO;
 import com.carlos.demo.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -16,12 +19,15 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class ProductService implements ProductServiceInterface {
 
     @Autowired private ProductsRepository productsRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private ReasonRepository reasonRepository;
+
 
     public Product saveProduct(Product product) {
         if(!Objects.nonNull(product.getState())){
@@ -100,9 +106,11 @@ public class ProductService implements ProductServiceInterface {
         productsRepository.deleteById(productId);
     }
 
-    public Product changeProductState(Integer productId){
+    public Product changeProductState(Integer productId, ReasonDTO reason){
         Product product = productsRepository.findById(productId).get();
         product.setState(!product.getState());
+        Reason newReason = new Reason(1, reason.getDescription(), product);
+        product.addReason(newReason);
 
         productsRepository.save(product);
 

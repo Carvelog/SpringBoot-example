@@ -52,4 +52,9 @@ public class SupplierService implements SupplierServiceInterface{
     public void deleteSupplier(Integer supplierId) {
         supplierRepository.deleteById(supplierId);
     }
+
+    @Override
+    public boolean existsByName(String supplierName){
+        return supplierRepository.existsByName(supplierName);
+    }
 }

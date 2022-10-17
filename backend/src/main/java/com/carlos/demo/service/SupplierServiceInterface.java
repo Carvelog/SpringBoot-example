@@ -10,4 +10,5 @@ public interface SupplierServiceInterface {
     Supplier getSupplier(Integer supplierId);
     Supplier updateSupplier(Integer supplierId,Supplier supplier);
     void deleteSupplier(Integer supplierId);
+    boolean existsByName(String supplierName);
 }

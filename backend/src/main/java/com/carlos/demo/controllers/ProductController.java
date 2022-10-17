@@ -4,6 +4,7 @@ import com.carlos.demo.models.PriceReductions;
 import com.carlos.demo.models.Product;
 import com.carlos.demo.models.Supplier;
 import com.carlos.demo.security.ProductDTO;
+import com.carlos.demo.security.ReasonDTO;
 import com.carlos.demo.service.PriceReductionsProductsService;
 import com.carlos.demo.service.ProductService;
 import com.carlos.demo.service.SuppliersProductsService;
@@ -58,8 +59,8 @@ public class ProductController {
     }
 
     @PutMapping("/product/changestate")
-    public ResponseEntity<Object> changeProductState(@RequestParam(value = "id") Integer id, @RequestBody String reason){
-        Product prod = productService.changeProductState(id);
+    public ResponseEntity<Object> changeProductState(@RequestParam(value = "id") Integer id, @RequestBody ReasonDTO reason){
+        Product prod = productService.changeProductState(id, reason);
         return new ResponseEntity<>(prod, HttpStatus.OK);
     }
 

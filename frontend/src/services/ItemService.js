@@ -133,7 +133,10 @@ const itemCreator = async (creatorId) => {
 
 const changeItemState = async (itemId, reason) => {
     try {
-        const response = await (await axios.put(`http://localhost:8080/api/products/product/changestate?id=${itemId}`)).data(reason);
+        const response = await (await axios.put(`http://localhost:8080/api/products/product/changestate?id=${itemId}`, {
+            productId: itemId,
+            description: reason
+        }));
         if (response.status !== 200) {
           throw new Error('Change state not possible');
         }

@@ -33,9 +33,9 @@ public class ReasonController {
         Product prod = productService.getProduct(reasonDTO.getProductId());
         Reason reason = new Reason(reasonDTO.getUserId(), reasonDTO.getDescription(), prod);
 
-        reasonService.saveReason(reason);
+        Reason reasonSaved = reasonService.saveReason(reason);
 
-        return new ResponseEntity<>("reason saved", HttpStatus.OK);
+        return new ResponseEntity<>(reasonSaved, HttpStatus.OK);
     }
 
     @GetMapping("/reason")

@@ -48,12 +48,20 @@ public class Product implements Serializable {
     )
     List<PriceReductions> priceReductions;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Set<Reason> reasons;
 
     public Product() {
         suppliers = new HashSet<Supplier>();
         priceReductions = new ArrayList<PriceReductions>();
+    }
+
+    public Set<Reason> getReasons() {
+        return reasons;
+    }
+
+    public void setReasons(Set<Reason> reasons) {
+        this.reasons = reasons;
     }
 
     public Set<Supplier> getSuppliers() {
@@ -118,5 +126,9 @@ public class Product implements Serializable {
 
     public void setCreatorId(int creatorId) {
         this.creatorId = creatorId;
+    }
+
+    public void addReason(Reason reason){
+        this.reasons.add(reason);
     }
 }

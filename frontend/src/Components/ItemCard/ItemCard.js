@@ -25,9 +25,15 @@ const ItemCard = (props) => {
     }, [item.creatorId])
 
     const changeItemStateHandler = async (e) => {
+        if(reason === ''){
+            alert('A reason should be specified')
+            return
+        }
         const updatedItem = await itemService.changeItemState(item.id, reason)
         setItem(updatedItem)
         dispatch(itemsActions.update(updatedItem))
+        setReason('')
+        setShowReasonForm(false)
     }
 
     const reasonHandler = (e) => {
@@ -47,11 +53,11 @@ const ItemCard = (props) => {
                 <button onClick={() => {setShowReasonForm(!showReasonForm)}}>{item.state ? 'Descontinuar' : 'Activar'}</button>
                 {
                 showReasonForm && 
-                <div>
+                <form>
                     <label>Reason:</label>
                     <textarea name="reason" value={reason} onChange={reasonHandler} />
                     <Button onClick={changeItemStateHandler}>Save</Button>
-                </div>
+                </form>
                 }
             </div>
             {item.price && <p>Price: {item.price}€</p>}

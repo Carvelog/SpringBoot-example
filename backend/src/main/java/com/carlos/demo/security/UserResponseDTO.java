@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class UserResponseDTO {
+    
     private String username;
     private List<String> roles;
 
