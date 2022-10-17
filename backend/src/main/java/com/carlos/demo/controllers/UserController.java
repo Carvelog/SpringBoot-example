@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
     @Autowired private UserService userService;
 
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/user")
     public ResponseEntity<Object> getUser(@RequestParam(value = "id") Integer id){
         User user = userService.getUserById(id).get();

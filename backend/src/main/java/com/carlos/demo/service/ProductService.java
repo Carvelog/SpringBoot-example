@@ -124,8 +124,19 @@ public class ProductService implements ProductServiceInterface {
     public Product changeProductState(Integer productId, ReasonDTO reason){
         Product product = productsRepository.findById(productId).get();
         product.setState(!product.getState());
-        Reason newReason = new Reason(1, reason.getDescription(), product);
-        product.addReason(newReason);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            String username = auth.getName();
+
+            User currentUser = userRepository.findByUsername(username);
+            Reason newReason = new Reason(currentUser.getId(), reason.getDescription(), product);
+            product.addReason(newReason);
+        } else {
+            // mocked data
+            Reason newReason = new Reason(1, reason.getDescription(), product);
+            product.addReason(newReason);
+        }
 
         productsRepository.save(product);
 

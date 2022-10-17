@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -32,7 +32,9 @@ public class ProductController {
         return productService.saveProduct(product);
     }
 
-//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    //hasRole(...) set a prefix for the the content - the default one is ROLE_ -> hasRole('ADMIN') = ROLE_ADMIN
+    //hasAuthority(...) checks the content WITHOUT a prefix, i.e. just the pure content -> hasAuthority('ADMIN') = ADMIN
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/products")
     public ResponseEntity<Object> getProducts(){
         List<Product> prod = productService.getProducts();
