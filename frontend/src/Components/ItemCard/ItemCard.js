@@ -162,7 +162,7 @@ const ItemCard = (props) => {
                     </tr>
                     {item.price && <tr>
                             <td>Price: €</td>
-                            <td><input className={styles['item-input-data']} name="price" value={price} onChange={itemDataHandler}/></td>
+                            <td><input className={styles['item-input-data']} type="number" name="price" value={price} onChange={itemDataHandler}/></td>
                         </tr>
                     }
                     {item.creationDate && <tr>

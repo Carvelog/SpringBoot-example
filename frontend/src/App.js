@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux"
 import Header from './Components/Header/Header'
 import ItemList from './pages/ItemsList/ItemsList'
 import NewItem from './pages/NewItem/NewItem'
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard'
 
 let isInitial = true
 
@@ -24,6 +25,7 @@ function App() {
       const user = localStorage.getItem('user')
       if(user){
         dispatch(authActions.signin())
+        dispatch(authActions.setRoles(JSON.parse(user).roles))
       } else {
         dispatch(authActions.signout())
       }
@@ -37,6 +39,7 @@ function App() {
           <Route path='/' element={<div>HOLA</div>} />
           <Route path='/items' element={<ItemList />}/>
           <Route path='/newitem' element={<NewItem />}/>
+          <Route path='/admin-dashboard' element={<AdminDashboard />}/>
         </Routes>
       </main>
     </div>

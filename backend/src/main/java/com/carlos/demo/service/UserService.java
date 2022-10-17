@@ -44,4 +44,7 @@ public class UserService implements UserDetailsService {
     public Optional<User> getUserById(Integer creatorId) {
         return userRepository.findById(creatorId);
     }
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
 }

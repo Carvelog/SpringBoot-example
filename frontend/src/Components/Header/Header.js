@@ -8,11 +8,12 @@ import Modal from '../UI/Modal/Modal'
 import LoginForm from '../LoginForm/LoginForm'
 
 import Button from '../UI/Button/Button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { authActions } from '../../store/auth'
 import { itemsActions } from '../../store/items'
 
 import authService from '../../services/authService'
+import { getRoles } from '@testing-library/react'
 
 const Header = () => {
 
@@ -24,6 +25,7 @@ const Header = () => {
 
     const isModalOpen = useSelector(state => state.modal.isOpen)
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+    const roles = useSelector(state => state.auth.roles)
 
     const loginHandler = () => {
         dispatch(modalActions.openModal())
@@ -58,8 +60,8 @@ const Header = () => {
                 {
                 isAuthenticated &&
                 <div>
-                    <NavLink style={{ textDecoration: 'none' }} to="/items">Items</NavLink>
-                    <NavLink style={{ textDecoration: 'none' }} to="/newitem"><span>Add Item</span></NavLink>
+                    <NavLink className={styles['nav-button']} style={{ textDecoration: 'none' }} to="/items">Items</NavLink>
+                    <NavLink className={styles['nav-button']} style={{ textDecoration: 'none' }} to="/newitem"><span>Add Item</span></NavLink>
                 </div>
                 }
             </nav>
@@ -73,6 +75,7 @@ const Header = () => {
                     </div>
                     :
                     <div className={styles['logout-button']}>
+                        {roles.includes('ADMIN') && <NavLink className={styles['nav-button']} style={{ textDecoration: 'none' }} to="/admin-dashboard">Dashboard</NavLink>}
                         <Button onClick={logoutHandler}>Log out</Button>
                     </div>
                 }
