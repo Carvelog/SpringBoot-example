@@ -9,7 +9,7 @@ public interface ProductServiceInterface {
     Product saveProduct(Product product);
     List<Product> getProducts();
     Product getProduct(Integer productId);
-    Product updateProduct(Integer productId, ProductDTO product);
+    Product updateProduct(Integer productId, ProductDTO product) throws Exception;
     void deleteProduct(Integer productId);
     List<Product> getProductByState(Boolean state);
 }

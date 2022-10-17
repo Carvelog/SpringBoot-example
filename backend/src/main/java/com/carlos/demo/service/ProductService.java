@@ -2,9 +2,11 @@ package com.carlos.demo.service;
 
 import com.carlos.demo.models.Product;
 import com.carlos.demo.models.Reason;
+import com.carlos.demo.models.Supplier;
 import com.carlos.demo.models.User;
 import com.carlos.demo.repository.ProductsRepository;
 import com.carlos.demo.repository.ReasonRepository;
+import com.carlos.demo.repository.SupplierRepository;
 import com.carlos.demo.repository.UserRepository;
 import com.carlos.demo.security.ProductDTO;
 import com.carlos.demo.security.ReasonDTO;
@@ -27,6 +29,7 @@ public class ProductService implements ProductServiceInterface {
     @Autowired private ProductsRepository productsRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private ReasonRepository reasonRepository;
+    @Autowired private SupplierRepository supplierRepository;
 
 
     public Product saveProduct(Product product) {
@@ -66,7 +69,7 @@ public class ProductService implements ProductServiceInterface {
         return productsRepository.findProductByItemCode(itemCode);
     }
 
-    public Product updateProduct(Integer productId, ProductDTO newProduct) {
+    public Product updateProduct(Integer productId, ProductDTO newProduct) throws Exception{
         Product product = productsRepository.findById(productId).get();
 
         if(!product.getState()){
@@ -96,7 +99,17 @@ public class ProductService implements ProductServiceInterface {
         }
 
         if(Objects.nonNull(newProduct.getSuppliers())){
-            product.setSuppliers(newProduct.getSuppliers());
+            for(Supplier supplier : newProduct.getSuppliers()){
+                if(!supplierRepository.existsByNameAndCountry(supplier.getName(), supplier.getCountry()))
+                    product.addSuppliers(newProduct.getSuppliers());
+                else{
+                    throw new Exception("The Supplier: " + supplier.getName() + " from: " + supplier.getCountry() + " is already added to this product.");
+                }
+            }
+        }
+
+        if(Objects.nonNull(newProduct.getSuppliers())){
+            product.addPriceReduction(newProduct.getPriceReductions());
         }
 
         return productsRepository.save(product);

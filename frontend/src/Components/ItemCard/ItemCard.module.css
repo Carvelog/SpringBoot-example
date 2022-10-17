@@ -25,3 +25,26 @@
 .reducedPrice li div{
     display: flex;
 }
+
+.description{
+    font-size: xx-large;
+    border: 0;
+}
+
+.item-input-data{
+    border: 0;
+    width: auto;
+}
+
+.add-new-section{
+    display: flex;
+    align-items: center;
+}
+
+.add-new-section p{
+    margin-right: 10px;
+}
+
+.add-new-form-section div{
+    margin-top: 10px;
+}

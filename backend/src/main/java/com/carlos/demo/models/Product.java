@@ -131,4 +131,16 @@ public class Product implements Serializable {
     public void addReason(Reason reason){
         this.reasons.add(reason);
     }
+
+    public void addSuppliers(Set<Supplier> suppliers){
+        for(Supplier supplier : suppliers){
+            this.suppliers.add(supplier);
+        }
+    }
+
+    public void addPriceReduction(List<PriceReductions> priceReductions){
+        for(PriceReductions priceReduction : priceReductions){
+            this.priceReductions.add(priceReduction);
+        }
+    }
 }

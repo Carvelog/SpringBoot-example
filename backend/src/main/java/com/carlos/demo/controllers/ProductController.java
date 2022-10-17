@@ -52,10 +52,14 @@ public class ProductController {
         return new ResponseEntity<>(prod, HttpStatus.OK);
     }
 
-    @PutMapping("/product/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable("id") Integer id, @RequestBody ProductDTO product){
-        Product prod = productService.updateProduct(id, product);
-        return new ResponseEntity<>(prod, HttpStatus.OK);
+    @PutMapping("/product")
+    public ResponseEntity<Object> updateProduct(@RequestParam("id") Integer id, @RequestBody ProductDTO product){
+        try{
+            Product prod = productService.updateProduct(id, product);
+            return new ResponseEntity<>(prod, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/product/changestate")

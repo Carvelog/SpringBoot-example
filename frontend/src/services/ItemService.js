@@ -1,16 +1,16 @@
-import axios from "axios";
+import axios from "axios"
 
 const getItems = async () => {
     try {
-        const response = await axios.get('http://localhost:8080/api/products/products');
+        const response = await axios.get('http://localhost:8080/api/products/products')
         if (response.status !== 200) {
-          throw new Error('Could not fetch items data!');
+          throw new Error('Could not fetch items data!')
         }
 
         const data = await response.data
-        return data;
+        return data
     } catch (error) {
-        console.error(error);
+        console.error(error)
     }
     // const fetchData = async () => {
     //     const response = await fetch(
@@ -23,15 +23,15 @@ const getItems = async () => {
     //                 'Content-Type': 'application/json',
     //             },
     //         }
-    //     );
+    //     )
   
     //     if (!response.ok) {
-    //       throw new Error('Could not fetch items data!');
+    //       throw new Error('Could not fetch items data!')
     //     }
   
     //     const data = await response.json()
-    //     return data;
-    // };
+    //     return data
+    // }
 
     // try {
     //     const items = await fetchData()
@@ -53,7 +53,7 @@ const getItem = async (itemCode) => {
                     'Content-Type': 'application/json',
                 },
             }
-        );
+        )
   
         if (!response.ok) {
           throw new Error('Could not fetch item with item code: ' + itemCode)
@@ -61,7 +61,7 @@ const getItem = async (itemCode) => {
   
         const data = await response.json()
         return data
-    };
+    }
 
     try {
         const item = await fetchData(itemCode)
@@ -83,7 +83,7 @@ const addNewItem = async (newItem) => {
                 },
                 body: JSON.stringify(newItem)
             }
-        );
+        )
   
         if (!response.ok) {
           throw new Error('There was a problem saving the new item')
@@ -91,7 +91,7 @@ const addNewItem = async (newItem) => {
   
         const data = await response.json()
         return data
-    };
+    }
 
     try {
         const user = await fetchData(newItem)
@@ -113,7 +113,7 @@ const itemCreator = async (creatorId) => {
                     'Content-Type': 'application/json',
                 },
             }
-        );
+        )
   
         if (!response.ok) {
           throw new Error('Could not fetch user with id: ' + creatorId)
@@ -121,7 +121,7 @@ const itemCreator = async (creatorId) => {
   
         const data = await response.json()
         return data
-    };
+    }
 
     try {
         const user = await fetchData(creatorId)
@@ -133,17 +133,30 @@ const itemCreator = async (creatorId) => {
 
 const changeItemState = async (itemId, reason) => {
     try {
-        const response = await (await axios.put(`http://localhost:8080/api/products/product/changestate?id=${itemId}`, {
+        const response = await axios.put(`http://localhost:8080/api/products/product/changestate?id=${itemId}`, {
             productId: itemId,
             description: reason
-        }));
+        })
         if (response.status !== 200) {
-          throw new Error('Change state not possible');
+          throw new Error('Change state not possible')
         }
         const data = await response.data
-        return data;
+        return data
     } catch (error) {
-        console.error(error);
+        console.error(error)
+    }
+}
+
+const updateItem = async (itemId, newItemData) => {
+    try {
+        const response = await axios.put(`http://localhost:8080/api/products/product?id=${itemId}`, { ...newItemData })
+        if (response.status !== 200) {
+          throw new Error('Change state not possible')
+        }
+        const data = await response.data
+        return data
+    } catch (error) {
+        alert(error.response.data)
     }
 }
 
@@ -152,6 +165,7 @@ const itemService = {
     getItem,
     addNewItem,
     itemCreator,
+    updateItem,
     changeItemState
 }
 

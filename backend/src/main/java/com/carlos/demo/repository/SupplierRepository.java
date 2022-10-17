@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SupplierRepository extends CrudRepository<Supplier, Integer> {
     boolean existsByName(String supplierName);
+    boolean existsByNameAndCountry(String supplierName, String supplierCountry);
 }
