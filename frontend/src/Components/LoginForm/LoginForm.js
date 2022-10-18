@@ -28,9 +28,8 @@ const LoginForm = (props) => {
     
         postSubmitUserData(username, password, props.isLogin)
         .then(response => {
-            const data = response.data
-            localStorage.setItem("user", JSON.stringify(data))
-            dispatch(authActions.signin())
+            localStorage.setItem("user", JSON.stringify(response.data))
+            dispatch(authActions.signin(response.data.roles))
         })
         .catch(e => {
             alert('Could not logup the user: ' + e);

@@ -24,7 +24,7 @@ const Header = () => {
 
     const isModalOpen = useSelector(state => state.modal.isOpen)
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
-    const roles = useSelector(state => state.auth.roles)
+    const isAdmin = useSelector(state => state.auth.isAdmin)
 
     const loginHandler = () => {
         dispatch(modalActions.openModal())
@@ -74,8 +74,8 @@ const Header = () => {
                     </div>
                     :
                     <div className={styles['logout-button']}>
-                        {roles.includes('ADMIN') && <NavLink className={styles['nav-button']} style={{ textDecoration: 'none' }} to="/admin-dashboard">Dashboard</NavLink>}
                         <Button onClick={logoutHandler}>Log out</Button>
+                        {isAdmin && <NavLink className={styles['nav-button']} style={{ textDecoration: 'none' }} to="/admin-dashboard">Dashboard</NavLink>}
                     </div>
                 }
             </div>

@@ -2,22 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     isAuthenticated : false,
-    roles: []
+    roles: [],
+    isAdmin: false,
+    username: ''
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        signin(state) {
+        signin(state, action) {
             state.isAuthenticated = true
+            if(action.payload){
+                state.roles = action.payload
+                action.payload.includes('ADMIN') ? state.isAdmin = true : state.isAdmin = false 
+            }
         },
         signout(state) {
             state.isAuthenticated = false
             state.roles = []
-        },
-        setRoles(state, action){
-            state.roles = action.payload
+            state.isAdmin = false
+            state.username = ''
         }
     }
 })

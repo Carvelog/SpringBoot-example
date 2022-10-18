@@ -24,8 +24,7 @@ function App() {
 
       const user = localStorage.getItem('user')
       if(user){
-        dispatch(authActions.signin())
-        dispatch(authActions.setRoles(JSON.parse(user).roles))
+        dispatch(authActions.signin(JSON.parse(user).roles))
       } else {
         dispatch(authActions.signout())
       }
