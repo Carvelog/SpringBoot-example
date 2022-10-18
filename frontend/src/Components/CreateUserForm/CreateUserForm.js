@@ -3,10 +3,11 @@ import Button from "../UI/Button/Button"
 
 import styles from './CreateUserForm.module.css'
 
+import userService from '../../services/userService'
 
 const CreateUserForm = () => {
 
-    const createUserHandler = (e) => {
+    const createUserHandler = async (e) => {
         e.preventDefault()
 
         const newUser = {
@@ -14,12 +15,16 @@ const CreateUserForm = () => {
             password: e.target.password.value,
             roles: [e.target.role.value]
         } 
+        
+        await userService.saveNewUser(newUser)
 
-        console.log('newUser', newUser)
+        e.target.username.value = ''
+        e.target.password.value = ''
+        e.target.role.value = ''
     }
 
     return(
-        <Section className={styles.section}>
+        <Section>
             <div className={styles.header}>
                 <h2>Create a new user</h2>
             </div>
@@ -30,11 +35,11 @@ const CreateUserForm = () => {
                 </div>
                 <div>
                     <label>password:</label>
-                    <input type="password" name="password" required />
+                    <input type="password" name="password" autoComplete="off" required />
                 </div>
                 <div>
                     <label>Roles:</label>
-                    <select name="role">
+                    <select name="role" className={styles.select}>
                         <option value="USER">User</option>
                         <option value="ADMIN">Admin</option>
                     </select>

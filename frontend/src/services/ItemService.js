@@ -55,7 +55,7 @@ const updateItem = async (itemId, newItemData) => {
         const response = await api.put(`/product?id=${itemId}`, { ...newItemData })
         return response.data
     } catch (error) {
-        console.error(error)
+        alert(error.response.data)
     }
 }
 

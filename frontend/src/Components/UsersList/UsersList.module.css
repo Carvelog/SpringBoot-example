@@ -1,0 +1,14 @@
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+th {
+    border: 1px solid gray;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid lightgray;
+}

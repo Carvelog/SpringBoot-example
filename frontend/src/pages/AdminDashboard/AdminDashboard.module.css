@@ -4,7 +4,6 @@
 }
 
 .sidebar-menu{
-    background-color: red;
     justify-content: center;
     display: flex;
     flex-direction: column;
@@ -20,5 +19,5 @@
 }
 
 .main-content{
-    background-color: blue;
+    border-left: 2px solid lightgray
 }

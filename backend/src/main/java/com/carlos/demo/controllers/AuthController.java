@@ -73,49 +73,53 @@ public class AuthController {
             return new ResponseEntity<>("Username is already registered!", HttpStatus.BAD_REQUEST);
         }
 
-        User newUser = new User();
-        newUser.setUsername(userDTO.getUsername());
-        newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        try {
+            User newUser = new User();
+            newUser.setUsername(userDTO.getUsername());
+            newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
-        List<String> strRoles = userDTO.getRoles();
-        List<Role> roles = new ArrayList<>();
+            List<String> strRoles = userDTO.getRoles();
+            List<Role> roles = new ArrayList<>();
 
-        if (strRoles == null ) {
-            Role userRole = roleService.findByName(RolesEnum.USER.toString());
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role.toLowerCase()) {
-                    case "admin":
-                        Role adminRole = roleService.findByName(RolesEnum.ADMIN.toString());
-                        roles.add(adminRole);
-                    default:
-                        Role userRole = roleService.findByName(RolesEnum.USER.toString());
-                        roles.add(userRole);
-                }
-            });
+            if (strRoles == null ) {
+                Role userRole = roleService.findByName(RolesEnum.USER.toString());
+                roles.add(userRole);
+            } else {
+                strRoles.forEach(role -> {
+                    switch (role.toLowerCase()) {
+                        case "admin":
+                            Role adminRole = roleService.findByName(RolesEnum.ADMIN.toString());
+                            roles.add(adminRole);
+                        default:
+                            Role userRole = roleService.findByName(RolesEnum.USER.toString());
+                            roles.add(userRole);
+                    }
+                });
+            }
+
+            newUser.setRoles(roles);
+
+            User savedUser = userService.saveUser(newUser);
+
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            UserDetails userDetails = userService.loadUserByUsername(savedUser.getUsername());
+            ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+            strRoles = new ArrayList<>();
+            for(Role role : savedUser.getRoles()){
+                strRoles.add(role.getRoleType().toString());
+            }
+
+            UserResponseDTO response = new UserResponseDTO(userDetails.getUsername(), strRoles);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(new Gson().toJson(response));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        newUser.setRoles(roles);
-
-        User savedUser = userService.saveUser(newUser);
-
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserDetails userDetails = userService.loadUserByUsername(savedUser.getUsername());
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-
-        strRoles = new ArrayList<>();
-        for(Role role : savedUser.getRoles()){
-            strRoles.add(role.getRoleType().toString());
-        }
-
-        UserResponseDTO response = new UserResponseDTO(userDetails.getUsername(), strRoles);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(new Gson().toJson(response));
     }
 
     @PostMapping("/signout")

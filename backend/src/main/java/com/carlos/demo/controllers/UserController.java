@@ -54,36 +54,52 @@ public class UserController {
         return new ResponseEntity<>(new Gson().toJson(users), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/user")
     public ResponseEntity<Object> saveUser(@RequestBody UserDTO userDTO){
-        User newUser = new User();
-        newUser.setUsername(userDTO.getUsername());
-        newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        try{
+            User newUser = new User();
+            newUser.setUsername(userDTO.getUsername());
+            newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
-        List<String> strRoles = userDTO.getRoles();
-        List<Role> roles = new ArrayList<>();
+            List<String> strRoles = userDTO.getRoles();
+            List<Role> roles = new ArrayList<>();
 
-        if (strRoles == null ) {
-            Role userRole = roleService.findByName(RolesEnum.USER.toString());
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role.toLowerCase()) {
-                    case "admin":
-                        Role adminRole = roleService.findByName(RolesEnum.ADMIN.toString());
-                        roles.add(adminRole);
-                    default:
-                        Role userRole = roleService.findByName(RolesEnum.USER.toString());
-                        roles.add(userRole);
-                }
-            });
+            if (strRoles == null ) {
+                Role userRole = roleService.findByName(RolesEnum.USER.toString());
+                roles.add(userRole);
+            } else {
+                strRoles.forEach(role -> {
+                    switch (role.toLowerCase()) {
+                        case "admin":
+                            Role adminRole = roleService.findByName(RolesEnum.ADMIN.toString());
+                            roles.add(adminRole);
+                        default:
+                            Role userRole = roleService.findByName(RolesEnum.USER.toString());
+                            roles.add(userRole);
+                    }
+                });
+            }
+
+            newUser.setRoles(roles);
+            User savedUser = userService.saveUser(newUser);
+
+            UserResponseDTO response = new UserResponseDTO(savedUser.getUsername(), strRoles);
+
+            return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
 
-        newUser.setRoles(roles);
-        User savedUser = userService.saveUser(newUser);
-
-        UserResponseDTO response = new UserResponseDTO(savedUser.getUsername(), strRoles);
-
-        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/user")
+    public ResponseEntity<String> deleteProduct(@RequestParam("username") String username){
+        try{
+            userService.deleteUser(username);
+            return new ResponseEntity<>("User with username: " + username + " deleted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

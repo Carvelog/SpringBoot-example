@@ -36,7 +36,13 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleType().toString())).collect(Collectors.toList());
     }
 
-    public User saveUser(User user) { return userRepository.save(user); }
+    public User saveUser(User user) throws Exception {
+        if(!this.existsByUsername(user.getUsername()))
+            return userRepository.save(user);
+        else{
+            throw new Exception("The User: " + user.getUsername() + " already exists.");
+        }
+    }
     public Boolean existsByUsername(String username) { return userRepository.existsByUsername(username); }
     public User getUserByName(String username) {
         return userRepository.findByUsername(username);
@@ -46,5 +52,16 @@ public class UserService implements UserDetailsService {
     }
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    public void deleteUser(String username) throws Exception{
+        if(this.existsByUsername(username)){
+            User user = userRepository.findByUsername(username);
+            userRepository.deleteById(user.getId());
+        }
+        else{
+            throw new Exception("The User: " + username + " does not exists.");
+        }
+
     }
 }
