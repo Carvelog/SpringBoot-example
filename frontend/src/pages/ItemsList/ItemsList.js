@@ -13,8 +13,6 @@ import itemService from "../../services/ItemService";
 
 import styles from './ItemsList.module.css'
 
-let initial = true
-
 const ItemList = () => {
     const isModalOpen = useSelector(state => state.modal.isOpen)
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
