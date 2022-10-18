@@ -68,6 +68,15 @@ const deleteItem = async (itemId) => {
     }
 }
 
+const getItemByState = async (state) => {
+    try{
+        const response = await api.get(`product/state?state=${state}`)
+        return response.data
+    } catch (error) {
+        alert(error.response.data)
+    }
+}
+
 const itemService = {
     getItems,
     getItem,
@@ -75,7 +84,8 @@ const itemService = {
     itemCreator,
     updateItem,
     changeItemState,
-    deleteItem
+    deleteItem,
+    getItemByState
 }
 
 export default itemService

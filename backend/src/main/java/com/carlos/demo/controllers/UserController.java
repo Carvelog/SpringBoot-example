@@ -58,7 +58,7 @@ public class UserController {
             }
             response.add(new UserResponseDTO(user.getUsername(), strRoles));
         }
-        
+
         return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
     }
 
