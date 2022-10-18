@@ -70,8 +70,9 @@ public class ProductController {
         return new ResponseEntity<>(prod, HttpStatus.OK);
     }
 
-    @DeleteMapping("/product/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id){
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/product")
+    public ResponseEntity<String> deleteProduct(@RequestParam("id") Integer id){
         productService.deleteProduct(id);
         return new ResponseEntity<>("Product with id: " + id + " deleted successfully", HttpStatus.OK);
     }

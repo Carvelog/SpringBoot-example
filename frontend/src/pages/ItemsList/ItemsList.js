@@ -20,7 +20,8 @@ const ItemList = () => {
     const [item, setItem] = useState(false)
     
 
-    const itemClickHandler = (item) => {
+    const itemClickHandler = (e, item) => {
+        e.preventDefault()
         dispatch(modalActions.openModal())
         setItem(item)
     }
@@ -28,7 +29,7 @@ const ItemList = () => {
     useEffect(() => {
         if(isAuthenticated)
             dispatch(fetchItems())
-    }, [isAuthenticated, dispatch])
+    }, [isAuthenticated, dispatch, items])
 
     return (
        <Section className={styles.section}>

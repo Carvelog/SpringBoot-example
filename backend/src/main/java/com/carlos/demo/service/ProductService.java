@@ -4,10 +4,7 @@ import com.carlos.demo.models.Product;
 import com.carlos.demo.models.Reason;
 import com.carlos.demo.models.Supplier;
 import com.carlos.demo.models.User;
-import com.carlos.demo.repository.ProductsRepository;
-import com.carlos.demo.repository.ReasonRepository;
-import com.carlos.demo.repository.SupplierRepository;
-import com.carlos.demo.repository.UserRepository;
+import com.carlos.demo.repository.*;
 import com.carlos.demo.security.ProductDTO;
 import com.carlos.demo.security.ReasonDTO;
 import com.carlos.demo.security.jwt.JwtUtils;
@@ -30,6 +27,9 @@ public class ProductService implements ProductServiceInterface {
     @Autowired private UserRepository userRepository;
     @Autowired private ReasonRepository reasonRepository;
     @Autowired private SupplierRepository supplierRepository;
+    @Autowired private SuppliersProductsRepository suppliersProductsRepository;
+    @Autowired private PriceReductionsProductsRepository priceReductionsProductsRepository;
+
 
 
     public Product saveProduct(Product product) {
@@ -118,6 +118,8 @@ public class ProductService implements ProductServiceInterface {
     }
 
     public void deleteProduct(Integer productId) {
+        suppliersProductsRepository.deleteByProductId(productId);
+        priceReductionsProductsRepository.deleteByProductId(productId);
         productsRepository.deleteById(productId);
     }
 

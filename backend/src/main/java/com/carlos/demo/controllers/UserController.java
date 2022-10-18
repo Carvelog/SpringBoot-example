@@ -49,9 +49,17 @@ public class UserController {
     public ResponseEntity<Object> getUsers(){
 
         List<User> users = userService.getAllUsers();
+        List<UserResponseDTO> response = new ArrayList<UserResponseDTO>();
 
-        // return a UserResponseDTO
-        return new ResponseEntity<>(new Gson().toJson(users), HttpStatus.OK);
+        for(User user : users){
+            List<String> strRoles = new ArrayList<>();
+            for(Role role : user.getRoles()){
+                strRoles.add(role.getRoleType().toString());
+            }
+            response.add(new UserResponseDTO(user.getUsername(), strRoles));
+        }
+        
+        return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

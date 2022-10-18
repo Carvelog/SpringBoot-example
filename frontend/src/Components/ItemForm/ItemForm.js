@@ -8,8 +8,8 @@ import itemService from "../../services/ItemService"
 import { useDispatch } from 'react-redux'
 import { itemsActions } from "../../store/items"
 
-import PriceReductionForm from '../PriceReductionFrom/PriceReductionForm'
-import SuppliersForm from '../SupplierForm/SupplierForm'
+import PriceReductionForm from '../ItemCard/PriceReductionFrom/PriceReductionForm'
+import SuppliersForm from '../ItemCard/SupplierForm/SupplierForm'
 
 const ItemForm = () => {
     const [addSupplierComponent, setAddSupplierComponent] = useState([])

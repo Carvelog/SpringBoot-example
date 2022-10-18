@@ -8,8 +8,8 @@ import Button from '../UI/Button/Button'
 
 import { itemsActions } from "../../store/items"
 
-import SuppliersForm from '../SupplierForm/SupplierForm'
-import PriceReductionForm from '../PriceReductionFrom/PriceReductionForm'
+import SuppliersForm from './SupplierForm/SupplierForm'
+import PriceReductionForm from './PriceReductionFrom/PriceReductionForm'
 
 const ItemCard = (props) => {
     const [itemCreator, setItemCreator] = useState('')

@@ -1,0 +1,15 @@
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-header > button {
+    height: 30px;
+    background-color: rgb(250, 81, 81);
+    padding: 0 10px;
+}
+
+.item-header > button:hover{
+    background-color: red;
+}

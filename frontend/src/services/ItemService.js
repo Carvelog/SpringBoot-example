@@ -59,13 +59,23 @@ const updateItem = async (itemId, newItemData) => {
     }
 }
 
+const deleteItem = async (itemId) => {
+    try{
+        const response = await api.delete(`/product?id=${itemId}`)
+        return response.data
+    } catch (error) {
+        alert(error.response.data)
+    }
+}
+
 const itemService = {
     getItems,
     getItem,
     addNewItem,
     itemCreator,
     updateItem,
-    changeItemState
+    changeItemState,
+    deleteItem
 }
 
 export default itemService

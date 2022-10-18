@@ -1,16 +1,32 @@
 import Card from "../UI/Card/Card"
+import Button from "../UI/Button/Button"
 
-import itemService from "../../services/ItemService";
+import { useSelector } from "react-redux"
+
+import itemService from "../../services/ItemService"
+import styles from './Item.module.css'
 
 const Item = (props) => {
+    const isAdmin = useSelector(state => state.auth.isAdmin)
+
     const onClickHandler = async (e) => {
         e.preventDefault()
         props.onClick(await itemService.getItem(props.item.itemCode))
     }
 
+    const deleteItemHandler = async (e) => {
+        e.stopPropagation()
+        
+        alert(await itemService.deleteItem(props.item.id))
+        
+    }
+
     return (
         <Card className={props.className} onClick={onClickHandler}>
-            {props.item.description && <h2>{props.item.description}</h2>}
+            <div className={styles['item-header']}>
+                {props.item.description && <h2>{props.item.description}</h2>}
+                {isAdmin && <Button onClick={deleteItemHandler}>delete</Button>}
+            </div>
             <table>
                 <tbody>    
                     {props.item.itemCode && <tr>

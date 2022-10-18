@@ -11,17 +11,18 @@ import ItemList from './pages/ItemsList/ItemsList'
 import NewItem from './pages/NewItem/NewItem'
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard'
 
-let isInitial = true
+const LandingPage = () => {
+  return(
+    <div className='landing-page-content'>
+      <h2>Login to see the content</h2>
+    </div>
+  )
+}
 
 function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-      // if(isInitial) {
-      //   isInitial = false
-      //   return
-      // }
-
       const user = localStorage.getItem('user')
       if(user){
         dispatch(authActions.signin(JSON.parse(user).roles))
@@ -35,7 +36,7 @@ function App() {
       <Header />
       <main>
         <Routes>
-          <Route path='/' element={<div>HOLA</div>} />
+          <Route path='/' element={<LandingPage />} />
           <Route path='/items' element={<ItemList />}/>
           <Route path='/newitem' element={<NewItem />}/>
           <Route path='/admin-dashboard' element={<AdminDashboard />}/>
