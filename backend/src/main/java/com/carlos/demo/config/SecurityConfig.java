@@ -50,30 +50,20 @@ public class SecurityConfig {
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//            .antMatchers("/").permitAll()
-//            .antMatchers("/h2-console/**").permitAll()
-//            .and()
-//            .cors().and().csrf().disable()
-//            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//            .authorizeRequests()
-//            .antMatchers("/auth/**").permitAll()
-//            .anyRequest().authenticated();
-//
-//        http.authenticationProvider(authenticationProvider());
-//
-//        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated();
+            .antMatchers("/").permitAll()
+            .antMatchers("/h2-console/**").permitAll()
+            .and()
+            .cors().and().csrf().disable()
+            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeRequests()
+            .antMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated();
 
-        http.cors().and().csrf().disable();
-        http.headers().frameOptions().disable();
+        http.authenticationProvider(authenticationProvider());
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -19,6 +19,10 @@ const itemsSlice = createSlice({
             const itemID = state.items.map((e) => e.id).indexOf(action.payload.id)
             state.items[itemID] = action.payload
         },
+        deleteItem(state, action) {
+            const items = state.items.filter((item) => item.id != action.payload)
+            state.items = items
+        },
         remove(state, action) {
             state.items = []
         }

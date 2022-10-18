@@ -3,14 +3,17 @@ import { useState, useEffect } from "react"
 import Card from "../UI/Card/Card"
 import Button from "../UI/Button/Button"
 
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import itemService from "../../services/ItemService"
 import styles from './Item.module.css'
+import { itemsActions } from "../../store/items"
 
 const Item = (props) => {
     const isAdmin = useSelector(state => state.auth.isAdmin)
     const [itemCreator, setItemCreator] = useState('')
+
+    const dispatch = useDispatch()
 
     const onClickHandler = async (e) => {
         e.preventDefault()
@@ -19,9 +22,9 @@ const Item = (props) => {
 
     const deleteItemHandler = async (e) => {
         e.stopPropagation()
-        
+
+        dispatch(itemsActions.deleteItem(props.item.id))
         alert(await itemService.deleteItem(props.item.id))
-        
     }
 
     useEffect(() => {

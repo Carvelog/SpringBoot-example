@@ -1,31 +1,22 @@
 package com.carlos.demo.controllers;
 
-import com.carlos.demo.models.PriceReductions;
 import com.carlos.demo.models.Product;
-import com.carlos.demo.models.Supplier;
 import com.carlos.demo.security.ProductDTO;
 import com.carlos.demo.security.ReasonDTO;
-import com.carlos.demo.service.PriceReductionsProductsService;
 import com.carlos.demo.service.ProductService;
-import com.carlos.demo.service.SuppliersProductsService;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
     @Autowired private ProductService productService;
-    @Autowired private SuppliersProductsService suppliersProductsService;
-    @Autowired private PriceReductionsProductsService priceReductionsProductsService;
 
     @PostMapping("/product")
     public Product saveProduct(@RequestBody Product product){

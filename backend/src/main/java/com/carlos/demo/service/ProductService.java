@@ -25,7 +25,6 @@ public class ProductService implements ProductServiceInterface {
 
     @Autowired private ProductsRepository productsRepository;
     @Autowired private UserRepository userRepository;
-    @Autowired private ReasonRepository reasonRepository;
     @Autowired private SupplierRepository supplierRepository;
     @Autowired private SuppliersProductsRepository suppliersProductsRepository;
     @Autowired private PriceReductionsProductsRepository priceReductionsProductsRepository;

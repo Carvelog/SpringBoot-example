@@ -1,10 +1,8 @@
 package com.carlos.demo.controllers;
 
-import com.carlos.demo.models.Product;
 import com.carlos.demo.models.Role;
 import com.carlos.demo.models.RolesEnum;
 import com.carlos.demo.models.User;
-import com.carlos.demo.repository.UserRepository;
 import com.carlos.demo.security.UserDTO;
 import com.carlos.demo.security.UserResponseDTO;
 import com.carlos.demo.service.RoleService;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 @RestController
@@ -56,7 +53,7 @@ public class UserController {
             for(Role role : user.getRoles()){
                 strRoles.add(role.getRoleType().toString());
             }
-            response.add(new UserResponseDTO(user.getUsername(), strRoles));
+            response.add(new UserResponseDTO(user.getUsername(), strRoles, user.getCreationDate()));
         }
 
         return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.OK);
