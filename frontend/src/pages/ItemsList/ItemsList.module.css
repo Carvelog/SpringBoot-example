@@ -3,12 +3,6 @@
 }
 
 .section{
-    /* display: flex;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: 40px; */
-
     display: grid;
     grid-template-columns: 0.25fr 1fr;
 }
@@ -20,4 +14,5 @@
 .content{
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
 }
