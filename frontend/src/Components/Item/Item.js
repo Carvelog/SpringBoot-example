@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react"
+
 import Card from "../UI/Card/Card"
 import Button from "../UI/Button/Button"
 
@@ -8,6 +10,7 @@ import styles from './Item.module.css'
 
 const Item = (props) => {
     const isAdmin = useSelector(state => state.auth.isAdmin)
+    const [itemCreator, setItemCreator] = useState('')
 
     const onClickHandler = async (e) => {
         e.preventDefault()
@@ -20,6 +23,14 @@ const Item = (props) => {
         alert(await itemService.deleteItem(props.item.id))
         
     }
+
+    useEffect(() => {
+        const getItemCreator = async (creatorId) => {
+            const response = await itemService.itemCreator(creatorId)
+            return response
+        }
+        getItemCreator(props.item.creatorId).then(user => setItemCreator(user))
+    }, [props])
 
     return (
         <Card className={props.className} onClick={onClickHandler}>
@@ -47,6 +58,11 @@ const Item = (props) => {
                     {props.item.creationDate && <tr>
                         <td>Creation date:</td>
                         <td>{props.item.creationDate.split("T")[0]}</td>
+                    </tr>
+                    }
+                     {itemCreator != null && <tr>
+                        <td>Creator:</td>
+                        <td>{itemCreator.username}</td>
                     </tr>
                     }
                 </tbody>
