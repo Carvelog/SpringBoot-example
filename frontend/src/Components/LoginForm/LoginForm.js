@@ -56,7 +56,7 @@ const LoginForm = (props) => {
     return (
         <form className={styles.userForm} onSubmit={onSubmitHandler}>
             <input placeholder="Username" type="text" name="username" value={username} onChange={usernameHandler} />
-            <input placeholder="Password" type="password" name="password" value={password} onChange={passwordeHandler}/>
+            <input placeholder="Password" autoComplete="off" type="password" name="password" value={password} onChange={passwordeHandler}/>
             <Button type='submit' className={styles.submitButton}>Log in</Button>
         </form>
     )

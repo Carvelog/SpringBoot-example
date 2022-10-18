@@ -1,6 +1,7 @@
 .price-reduction-container{
-    border-top: 1px solid lightgray;
+    border: 1px solid lightgray;
     grid-column: 2 / span 2; 
+    padding: 10px;
 }
 
 .price-reduction-container div{

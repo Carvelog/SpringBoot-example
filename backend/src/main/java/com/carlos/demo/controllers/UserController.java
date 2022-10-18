@@ -30,7 +30,7 @@ public class UserController {
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private RoleService roleService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @GetMapping("/user")
     public ResponseEntity<Object> getUser(@RequestParam(value = "id") Integer id){
         User user = userService.getUserById(id).get();

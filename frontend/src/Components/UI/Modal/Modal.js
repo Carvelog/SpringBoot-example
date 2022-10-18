@@ -20,9 +20,7 @@ const ModalContent = (props) => {
                     <Button className='closeModal' onClick={props.onClose}>X</Button>
                 </div>
                 <div className={styles.modalContent}>
-                    </div>
-                        {props.content}
-                    <div>
+                    {props.content}
                 </div>
                 <div className={styles.modalFooter}>
                 </div>

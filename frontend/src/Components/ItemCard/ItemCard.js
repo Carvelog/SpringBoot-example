@@ -116,11 +116,13 @@ const ItemCard = (props) => {
             suppliers: suppliersList,
             priceReductions: priceReductionsList
         }
-
-        const updatedItem = await itemService.updateItem(item.id, newItemData)
-        setItem(updatedItem)
-        dispatch(itemsActions.update(updatedItem))
-        setIsModified(false)
+        
+        if(item){
+            const updatedItem = await itemService.updateItem(item.id, newItemData)
+            setItem(updatedItem)
+            dispatch(itemsActions.update(updatedItem))
+            setIsModified(false)
+        }
     }
 
     useEffect(() => {
@@ -147,15 +149,15 @@ const ItemCard = (props) => {
                         <td>Item state:</td>
                         <td>
                             {item.state ? 'Activo' : 'Descontinuado'}
-                            <Button onClick={() => {setShowReasonForm(!showReasonForm)}}>{item.state ? 'Descontinuar' : 'Activar'}</Button>
+                            <Button className={styles['reason-button']} onClick={() => {setShowReasonForm(!showReasonForm)}}>{item.state ? 'Descontinuar' : 'Activar'}</Button>
                         </td>
                     </tr>
                     <tr>
                         {
                             showReasonForm && 
-                            <td>
+                            <td colSpan="2" className={styles['reason-form']}>
                                 <label>Reason:</label>
-                                <textarea name="reason" value={reason} onChange={reasonHandler} />
+                                <textarea name="reason" value={reason} rows="6" cols="50" onChange={reasonHandler} />
                                 <Button onClick={changeItemStateHandler}>Save</Button>
                             </td>
                         }
@@ -185,7 +187,7 @@ const ItemCard = (props) => {
                     <div className={styles['add-new-form-section']}>
                         {addSupplierComponent && addSupplierComponent.map(c => {return c})}
                     </div>
-                    {item.suppliers.length > 0 &&
+                    {item && item.suppliers.length > 0 &&
                         <table className={styles.subtable}>
                             <tbody>
                                 <tr>
@@ -212,7 +214,7 @@ const ItemCard = (props) => {
                     <div className={styles['add-new-form-section']}>
                         {addPriceReductionComponent && addPriceReductionComponent.map(co => {return co})}
                     </div>
-                    {item.priceReductions.length > 0 && 
+                    {item && item.priceReductions.length > 0 && 
                         <table className={styles.subtable}>
                             <tbody>
                                 <tr>
@@ -233,7 +235,7 @@ const ItemCard = (props) => {
                         </table>
                     }
                 </div>
-                {isModified && <Button type="submit">Save changes</Button>}
+                {isModified && <Button className={styles['button-save-changes']} type="submit">Save changes</Button>}
             </form>
         </Card>
     )

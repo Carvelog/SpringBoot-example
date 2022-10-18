@@ -28,12 +28,12 @@ const UsersList = () => {
                             <th>Creation date</th>
                             <th>Roles</th>
                         </tr>
-                        {users.length > 0 && users.map((user, i) => { 
+                        {users.length > 0 && users.map((user, pi) => { 
                             return ( 
-                                <tr>
+                                <tr key={pi}>
                                     <td>{user.username}</td>
                                     <td>{user.creationDate}</td>
-                                    <td>{user.roles.map((role) => { return <span>{role.roleType.toLowerCase()} </span>})}</td>
+                                    <td>{user.roles.map((role, i) => { return <span key={pi+''+i}>{role.roleType.toLowerCase()} </span>})}</td>
                                 </tr>
                             )
                         })}

@@ -1,5 +1,13 @@
 .itemCard{
-    width: 400px;
+    width: 420px;
+    max-height: 57vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.itemCard::-webkit-scrollbar {
+    display: none;
 }
 
 .itemCard form table{
@@ -50,9 +58,18 @@
 }
 
 .add-new-form-section div{
-    margin-top: 10px;
+    margin: 5px 1px;
 }
 
 .subtable {
     text-align: center;
+}
+
+.reason-button {
+    margin-left: 20px;
+}
+
+.button-save-changes{
+    margin-top: 10px;
+    height: 40px;
 }

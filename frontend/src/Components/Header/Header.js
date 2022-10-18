@@ -13,7 +13,6 @@ import { authActions } from '../../store/auth'
 import { itemsActions } from '../../store/items'
 
 import authService from '../../services/authService'
-import { getRoles } from '@testing-library/react'
 
 const Header = () => {
 

@@ -1,6 +1,7 @@
 .supplier-container{
+    border: 1px solid lightgray;
     grid-column: 2 / span 2; 
-    border-top: 1px solid lightgray;
+    padding: 10px;
 }
 
 .supplier-container div{
@@ -9,9 +10,6 @@
     justify-self: stretch;
     align-self: flex-end;
 }
-
-
-
 
 .supplier-container div label{
     justify-self: flex-start;
