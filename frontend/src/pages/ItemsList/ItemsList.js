@@ -22,6 +22,7 @@ const ItemList = () => {
 
     const dispatch = useDispatch()
     const [item, setItem] = useState(false)
+    const [filterActive, setFilterActive] = useState(false)
     
 
     const itemClickHandler = (item) => {
@@ -32,18 +33,19 @@ const ItemList = () => {
     const filterHandler = async (e) => {
         if(e.target.value === 'all'){
             dispatch(fetchItems())
+            setFilterActive(false)
         } else {
+            setFilterActive(true)
             const filteredItems = await itemService.getItemByState(e.target.value)
             dispatch(itemsActions.add(filteredItems))
         }
     }
 
     useEffect(() => {
-        if(initial && isAuthenticated){
-            initial = false
+        if(!filterActive && isAuthenticated){      
             dispatch(fetchItems())
         }
-    }, [isAuthenticated, dispatch, items])
+    }, [isAuthenticated, dispatch, filterActive])
 
     return (
        <Section className={styles.section}>
