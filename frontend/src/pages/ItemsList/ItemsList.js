@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchItems, itemsActions } from '../../store/items';
 import { modalActions } from "../../store/modal"
 
-import Item from "../../components/Item/Item"
-import ItemCard from "../../components/ItemCard/ItemCard"
-import Modal from "../../components/UI/Modal/Modal"
-import Section from "../../components/UI/Section/Section"
+import Item from "../../Components/Item/Item"
+import ItemCard from "../../Components/ItemCard/ItemCard"
+import Modal from "../../Components/UI/Modal/Modal"
+import Section from "../../Components/UI/Section/Section"
 
 import itemService from "../../services/ItemService";
 
@@ -22,7 +22,6 @@ const ItemList = () => {
     const [item, setItem] = useState(false)
     const [filterActive, setFilterActive] = useState(false)
     
-
     const itemClickHandler = (item) => {
         dispatch(modalActions.openModal())
         setItem(item)

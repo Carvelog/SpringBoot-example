@@ -1,10 +1,10 @@
 import styles from './AdminDashboard.module.css'
 
-import CreateUserForm from '../../components/CreateUserForm/CreateUserForm'
-import DeleteUserForm from '../../components/DeleteUserForm/DeleteUserForm'
-import UsersList from '../../components/UsersList/UsersList'
+import CreateUserForm from '../../Components/CreateUserForm/CreateUserForm'
+import DeleteUserForm from '../../Components/DeleteUserForm/DeleteUserForm'
+import UsersList from '../../Components/UsersList/UsersList'
 
-import Button from '../../components/UI/Button/Button'
+import Button from '../../Components/UI/Button/Button'
 import { useState } from 'react'
 
 const AdminDashboard = () => {

@@ -11,7 +11,6 @@ const DeleteUserForm = () => {
         e.preventDefault()
 
         userService.deleteUser(e.target.username.value)
-
         e.target.username.value = ''
     }
 
