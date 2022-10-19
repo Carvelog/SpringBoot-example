@@ -137,7 +137,7 @@ const ItemCard = (props) => {
     return (
         <Card className={styles.itemCard}>
             <form onSubmit={saveChangesHandler}>
-                {item.description && <input className={styles.description} name="description" value={description} onChange={itemDataHandler}/>}
+                {item.description && <textarea className={styles.description} cols="28" name="description" value={description} onChange={itemDataHandler}/>}
                 <table>
                     <tbody>
                     {item.itemCode && <tr>
