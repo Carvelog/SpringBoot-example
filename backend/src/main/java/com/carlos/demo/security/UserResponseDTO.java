@@ -1,8 +1,5 @@
 package com.carlos.demo.security;
 
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 

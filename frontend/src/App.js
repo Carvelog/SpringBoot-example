@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import { authActions } from "./store/auth"
 import { useDispatch } from "react-redux"
 
-import Header from './Components/Header/Header'
+import Header from './components/Header/Header'
 import ItemList from './pages/ItemsList/ItemsList'
 import NewItem from './pages/NewItem/NewItem'
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard'

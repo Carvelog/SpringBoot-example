@@ -1,4 +1,4 @@
-import ItemForm from "../../Components/ItemForm/ItemForm"
+import ItemForm from "../../components/ItemForm/ItemForm"
 
 
 const NewItem = () => {

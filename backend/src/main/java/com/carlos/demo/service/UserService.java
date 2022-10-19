@@ -1,7 +1,6 @@
 package com.carlos.demo.service;
 
 import com.carlos.demo.models.Role;
-import com.carlos.demo.models.Supplier;
 import com.carlos.demo.models.User;
 import com.carlos.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

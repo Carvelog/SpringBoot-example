@@ -3,32 +3,27 @@ package com.carlos.demo.controllers;
 import com.carlos.demo.models.Role;
 import com.carlos.demo.models.RolesEnum;
 import com.carlos.demo.models.User;
-import com.carlos.demo.repository.RoleRepository;
 import com.carlos.demo.security.UserDTO;
 import com.carlos.demo.security.UserResponseDTO;
 import com.carlos.demo.security.jwt.JwtUtils;
 import com.carlos.demo.service.RoleService;
 import com.carlos.demo.service.UserService;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")

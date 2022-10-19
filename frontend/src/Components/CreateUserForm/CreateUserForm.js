@@ -20,7 +20,7 @@ const CreateUserForm = () => {
 
         e.target.username.value = ''
         e.target.password.value = ''
-        e.target.role.value = ''
+        e.target.role.value = 'USER'
     }
 
     return(

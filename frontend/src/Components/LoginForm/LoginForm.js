@@ -30,18 +30,17 @@ const LoginForm = (props) => {
         .then(response => {
             localStorage.setItem("user", JSON.stringify(response.data))
             dispatch(authActions.signin(response.data.roles))
+
+            setUsername('')
+            setPassword('')
+            navigate('/items')
         })
         .catch(e => {
             alert('Could not logup the user: ' + e);
         })
 
-        setUsername('')
-        setPassword('')
-        
-        
         dispatch(modalActions.closeModal())
 
-        navigate('/items')
     }
       
     const usernameHandler = (e) => {

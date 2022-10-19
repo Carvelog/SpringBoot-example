@@ -1,6 +1,5 @@
 package com.carlos.demo.security;
 
-import javax.persistence.Column;
 import java.util.Date;
 
 public class ReasonDTO {

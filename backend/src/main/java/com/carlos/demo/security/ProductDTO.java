@@ -3,7 +3,6 @@ package com.carlos.demo.security;
 import com.carlos.demo.models.PriceReductions;
 import com.carlos.demo.models.Supplier;
 
-import javax.persistence.*;
 import java.util.*;
 
 public class ProductDTO {
