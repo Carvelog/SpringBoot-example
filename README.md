@@ -55,11 +55,8 @@ You have to perform these tasks satisfying also the next points
 4. REST: Design the API entries for REST methods exclusively
 5. It is convenient to use libraries and tools provided by the platform selected.
 
-Please note that during the development of this API, we will be at your disposal to clarify any queries that you may have, at the email address pruebasseleccion.bitbox@bitboxonline.com
-
-The section ‘Extra points’ and ‘Technical extra assessments” is optional. It will be taken into account when assesing this test.
-
 ## Extra points
+The section ‘Extra points’ and ‘Technical extra assessments” is optional. It will be taken into account when assesing this test.
 1. Admin: Implement a role for Adminstrators, so they can:
     - Manage user information
         - Create users
